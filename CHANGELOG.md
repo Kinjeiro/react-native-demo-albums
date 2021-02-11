@@ -2,6 +2,27 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.3](https://github.com/mokkapps/changelog-generator-demo/compare/v0.0.2...v0.0.3) (2021-02-11)
+
+
+### Features
+
+* **albums:** add Carousel for Album view ([9e4192c](https://github.com/mokkapps/changelog-generator-demo/commits/9e4192ce893401a8df260616cea2bd4a827e9d7e))
+* **albums:** show albums with delete swype action ([ca9c6ef](https://github.com/mokkapps/changelog-generator-demo/commits/ca9c6ef5e72f1369c049c3d3d62b962d0ef698d5))
+* **comp:** add ListWithSwypes.tsx components with click, close, delete actions ([bf2076d](https://github.com/mokkapps/changelog-generator-demo/commits/bf2076dd83223b62910da65ab443cb6e1925896a))
+* **gql:** add authMiddleware stub for apollo \ change uri to HttpLink ([8c57e1c](https://github.com/mokkapps/changelog-generator-demo/commits/8c57e1ca6af6ccc9a7d8748702c4019b2d540e34))
+
+
+### Refactoring
+
+* **faq:** minor fixes for faq module ([f13a4ff](https://github.com/mokkapps/changelog-generator-demo/commits/f13a4ffe6d6adb753cb714d79a77c4dbd090c7dc))
+
+
+### Chore
+
+* **eslint:** change rules for comfortable work ([bafc9e3](https://github.com/mokkapps/changelog-generator-demo/commits/bafc9e34561f618fb5937d4372d111d7ab241728))
+* **inner:** fixed bug in react-native-web: web crash because ViewPropTypes hasn't been imported ([52717bf](https://github.com/mokkapps/changelog-generator-demo/commits/52717bfa64234133b5ee6db25e3528dde1a734f0))
+
 ### [0.0.2](https://github.com/mokkapps/changelog-generator-demo/compare/v0.0.1...v0.0.2) (2021-02-11)
 
 
