@@ -2,6 +2,7 @@
   "name": "react-native-demo-albums",
   "version": "0.0.1",
   "description": "react-native-demo-albums",
+  "private": false,
   "main": "index.js",
   "scripts": {
     "android": "react-native run-android",
@@ -10,12 +11,14 @@
     "start": "react-native start",
     "test": "jest",
     "lint": "tsc --noEmit && eslint --ext .js,.jsx,.ts,.tsx ./",
-
     "release": "standard-version",
     "release:minor": "standard-version --release-as minor",
     "release:patch": "standard-version --release-as patch",
     "release:major": "standard-version --release-as major",
-    "patch-publish-push": "npm run release:patch && git push --no-verify"
+    "patch-publish-push": "npm run release:patch && git push --no-verify",
+    "postinstall": "husky install",
+    "prepublishOnly": "pinst --disable",
+    "postpublish": "pinst --enable"
   },
   "lint-staged": {
     "src/**/*.{ts,tsx}": [
@@ -24,9 +27,9 @@
   },
   "husky": {
     "hooks": {
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
       "pre-commit": "lint-staged",
-      "pre-push": "(git-branch-is master && git pull --rebase --no-verify && npm run patch-publish-push) || echo 'not master'"
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
+      "pre-push": "(git-branch-is main && git pull --rebase --no-verify && npm run patch-publish-push) || echo 'not master'"
     }
   },
   "jest": {
@@ -78,9 +81,10 @@
     "eslint-plugin-jsx-a11y": "~6.4.1",
     "eslint-plugin-react": "~7.22.0",
     "eslint-plugin-react-hooks": "~4.2.0",
-    "husky": "~5.0.9",
+    "husky": "~4.3.8",
     "jest-expo": "~40.0.0",
     "lint-staged": "~10.5.4",
+    "pinst": "~2.1.4",
     "standard-version": "~9.1.0",
     "typescript": "~4.0.0"
   },
