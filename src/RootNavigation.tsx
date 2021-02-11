@@ -14,8 +14,9 @@ export default function RootNavigation() {
   return (
     <NavigationContainer>
       <FooterTabs.Navigator
-        initialRouteName="Feed"
+        initialRouteName={ RootScreens.FEED }
         // unmountOnBlur={ true }
+        // todo @ANKU @LOW - вынести цвета
         activeColor="#f0edf6"
         inactiveColor="#3e2465"
         barStyle={{ backgroundColor: COLOR_FOOTER_TABS_BG }}
