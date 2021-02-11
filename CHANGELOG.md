@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.4](https://github.com/mokkapps/changelog-generator-demo/compare/v0.0.3...v0.0.4) (2021-02-11)
+
+
+### Features
+
+* **albums:** add LoadMore draft functionality for Albums ([0b294dc](https://github.com/mokkapps/changelog-generator-demo/commits/0b294dc88b47505a1567043f3f87acf087f92610))
+
 ### [0.0.3](https://github.com/mokkapps/changelog-generator-demo/compare/v0.0.2...v0.0.3) (2021-02-11)
 
 
