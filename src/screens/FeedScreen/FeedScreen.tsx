@@ -1,21 +1,30 @@
 import React from 'react';
-import { createStackNavigator } from '@react-navigation/stack';
+import { createStackNavigator, StackNavigationProp } from '@react-navigation/stack';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import { RouteProp } from '@react-navigation/native';
 
-import AlbumsScreen from './Albums/AlbumsScreen';
-import AlbumViewScreen from './Albums/AlbumViewScreen';
-import AlbumCreateScreen from './Albums/AlbumCreateScreen';
-import Posts from './Posts/Posts';
-import FeedScreens from './feed-navigation';
 import { COLOR_HEADER_BG } from '../../styles/colors';
+
+// ======================================================
+// MODULE
+// ======================================================
+import AlbumsScreen from './Albums/List/AlbumsScreen';
+import AlbumViewScreen, { AlbumViewScreenProps } from './Albums/View/AlbumViewScreen';
+import AlbumCreateScreen from './Albums/Create/AlbumCreateScreen';
+import Posts from './Posts/Posts';
+import FeedScreens, { FeedScreensParamList } from './feed-navigation';
 
 const FeedTabs = createMaterialTopTabNavigator();
 
-const FeedNavigator = createStackNavigator();
+const FeedNavigator = createStackNavigator<FeedScreensParamList>();
 
-function FeedTabsScreen() {
+type FeedTabsScreenProps = {
+  route: RouteProp<FeedScreensParamList, FeedScreens.FEED>;
+  navigation: StackNavigationProp<FeedScreensParamList, FeedScreens.FEED>;
+};
+function FeedTabsScreen(props: FeedTabsScreenProps) {
   return (
-    <FeedTabs.Navigator>
+    <FeedTabs.Navigator swipeEnabled={ false }>
       <FeedTabs.Screen name="AlbumsTab" component={ AlbumsScreen } />
       <FeedTabs.Screen name="PostsTab" component={ Posts } />
     </FeedTabs.Navigator>

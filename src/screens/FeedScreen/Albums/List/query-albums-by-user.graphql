@@ -1,0 +1,19 @@
+query selectAlbumsByUser($userId: ID!) {
+    user(id: $userId) {
+        id
+        albums(options: { paginate: { page: 0, limit: 3 } }) {
+            data {
+                id
+                title
+                photos {
+                    data {
+                        id
+                        title
+                        url
+                        thumbnailUrl
+                    }
+                }
+            }
+        }
+    }
+}
