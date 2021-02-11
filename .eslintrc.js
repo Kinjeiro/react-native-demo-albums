@@ -24,6 +24,8 @@ module.exports = {
   },
   rules: {
     'no-multiple-empty-lines': 0,
+    'no-trailing-spaces': 0,
+    'max-len': ['error', 120, 4, {'ignoreComments': true}],
 
     'react/jsx-indent-props': [2, 2],
     'react/jsx-boolean-value': ['error', 'always'],
