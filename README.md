@@ -11,6 +11,9 @@
     - [План работы](#t2_1)
     - [Остальные задачи](#t2_1)
 
+# Change log
+[Actual CHANGELOG.MD](./CHANGELOG.md)
+
 # Задание
 Создать мобильное приложение на React Native. 
 
