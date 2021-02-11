@@ -1,0 +1,12 @@
+{
+  "name": "react-native-demo-albums",
+  "displayName": "react-native-demo-albums",
+  "expo": {
+    "name": "react-native-demo-albums",
+    "slug": "react-native-demo-albums",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
