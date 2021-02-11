@@ -7,6 +7,7 @@ import AlbumViewScreen from './Albums/AlbumViewScreen';
 import AlbumCreateScreen from './Albums/AlbumCreateScreen';
 import Posts from './Posts/Posts';
 import FeedScreens from './feed-navigation';
+import { COLOR_HEADER_BG } from '../../styles/colors';
 
 const FeedTabs = createMaterialTopTabNavigator();
 
@@ -25,7 +26,7 @@ export default function FeedScreen() {
   return (
     <FeedNavigator.Navigator
       screenOptions={{
-        headerStyle: { backgroundColor: 'papayawhip' },
+        headerStyle: { backgroundColor: COLOR_HEADER_BG },
       }}
     >
       <FeedNavigator.Screen
