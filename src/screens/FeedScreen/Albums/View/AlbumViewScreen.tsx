@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { RouteProp } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { gql, useQuery } from '@apollo/client';
@@ -9,7 +9,7 @@ import Loading from '../../../../components/Loading/Loading';
 // MODULE
 // ======================================================
 import FeedScreens, { FeedScreensParamList } from '../../feed-navigation';
-import Slider from './Slider/Slider';
+import Slider from './PhotoSlider/Slider';
 
 const QUERY_ALBUM_BY_ID = gql`
     query queryAlbumById($albumId: ID!) {

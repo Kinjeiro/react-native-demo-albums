@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ActivityIndicator } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { gql, useQuery } from '@apollo/client';
@@ -15,7 +15,7 @@ import ListWithSwypes, { ListWithSwypesCallback } from '../../../../components/L
 
 import FeedScreens from '../../feed-navigation';
 import AlbumListItem from './AlbumListItem';
-
+import useLoadMore from '../../../../hooks/use-load-more';
 
 type AlbumsProps = {
   navigation: StackNavigationProp<any>;
@@ -25,6 +25,9 @@ const QUERY_ALBUMS_BY_USER = gql`
         user(id: $userId) {
             id
             albums(options: { paginate: { page: $page, limit: $limit } }) {
+                meta {
+                    totalCount
+                }
                 data {
                     id
                     title
@@ -42,8 +45,9 @@ const QUERY_ALBUMS_BY_USER = gql`
     }
 `;
 
-export default function AlbumsScreen({ navigation }: AlbumsProps) {
-  const [isAll, setIsAll] = useState(false);
+/*
+const [page, setPage] = React.useState(1);
+  const [results, setResults] = React.useState([]);
 
   const LIMIT = 3;
 
@@ -55,7 +59,8 @@ export default function AlbumsScreen({ navigation }: AlbumsProps) {
       notifyOnNetworkStatusChange: true,
       variables: {
         userId: '1',
-        page: 1,
+        // todo @ANKU @CRIT @MAIN - идет двойной запрос, нужно вынести этот метод
+        page,
         limit: LIMIT,
       },
     },
@@ -65,7 +70,52 @@ export default function AlbumsScreen({ navigation }: AlbumsProps) {
     data,
   } = gqlResponse;
 
-  const records = data && data.user.albums.data;
+  const totalCount = data && data.user.albums.meta.totalCount;
+  // const records = data && data.user.albums.data;
+
+  useEffect(() => {
+    const newResults = [...results, ...data.user.albums.data];
+    setResults(newResults);
+  }, [data]);
+
+  function onLoadMore() {
+    if (results.length < totalCount) {
+      setPage(Math.ceil(results.length / LIMIT) + 1);
+    }
+  }
+*/
+
+
+
+
+export default function AlbumsScreen({ navigation }: AlbumsProps) {
+  const {
+    loading,
+    records,
+    totalCount,
+    gqlResponse,
+    onLoadMore,
+  } = useLoadMore(
+    QUERY_ALBUMS_BY_USER,
+    {
+      userId: '1',
+    },
+    (data) => data && data.user.albums,
+    (prev, next) => ({
+      ...prev,
+      // Concatenate the new feed results after the old ones
+      user: {
+        ...prev.user,
+        albums: {
+          ...prev.user.albums,
+          data: prev.user.albums.data.concat(next.user.albums.data),
+        },
+      },
+    }),
+  );
+
+  // todo @ANKU @LOW - динамически получать пользователя
+  // todo @ANKU @LOW - сгенерировать из схемы TS интерфейсы и прописать их тут
 
   // const goToView = () => navigation.navigate(FeedScreens.ALBUM_VIEW);
   // const goToCreate = () => navigation.navigate(FeedScreens.ALBUM_CREATE);
@@ -91,7 +141,7 @@ export default function AlbumsScreen({ navigation }: AlbumsProps) {
   return (
     <SafeAreaView style={{ flex: 1 }}>
       {
-        !data ? (
+        !records ? (
           <Loading />
         ) : (
           <ListWithSwypes
@@ -109,41 +159,9 @@ export default function AlbumsScreen({ navigation }: AlbumsProps) {
             ListFooterComponent={ renderFooter }
 
             // On End Reached (Takes a function)
-            onEndReached={ () => {
-              // todo @ANKU @CRIT @MAIN - сделать по нормальному через cursor
-              if (!isAll) {
-                // todo @ANKU @CRIT @MAIN - идет несколько запросов
-                gqlResponse.fetchMore({
-                  variables: {
-                    page: Math.ceil(records.length / LIMIT) + 1,
-                  },
-                  updateQuery: (previousResult, { fetchMoreResult }) => {
-                    if (fetchMoreResult.user.albums.data.length < LIMIT) {
-                      setIsAll(true);
-                    }
-
-                    // Don't do anything if there weren't any new items
-                    if (!fetchMoreResult || fetchMoreResult.user.albums.data.length === 0) {
-                      return previousResult;
-                    }
-
-                    return {
-                      ...previousResult,
-                      // Concatenate the new feed results after the old ones
-                      user: {
-                        ...previousResult.user,
-                        albums: {
-                          ...previousResult.albums,
-                          data: previousResult.user.albums.data.concat(fetchMoreResult.user.albums.data),
-                        },
-                      },
-                    };
-                  },
-                });
-              }
-            } }
+            onEndReached={ onLoadMore }
             // How Close To The End Of List Until Next Data Request Is Made
-            onEndReachedThreshold={ 0.5 }
+            onEndReachedThreshold={ 0.3 }
             refreshing={ gqlResponse.networkStatus === 4 }
             onRefresh={ () => {
               // todo @ANKU @CRIT @MAIN - разобраться

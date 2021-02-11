@@ -1,14 +1,20 @@
 import React, { useRef, useState } from 'react';
-import { View, ScrollView, StatusBar, SafeAreaView } from 'react-native';
+import {
+  View, ScrollView, StatusBar, SafeAreaView,
+} from 'react-native';
 import Carousel, { Pagination } from 'react-native-snap-carousel';
 
-import { sliderWidth, itemWidth } from './SliderEntry.style';
+import { sliderWidth, itemWidth } from './SliderEntryStyle';
 import SliderEntry from './SliderEntry';
-import styles, { colors } from './index.style';
+import styles from './index-style';
 
 const SLIDER_1_FIRST_ITEM = 1;
 
-export default function Slider(props) {
+type SliderProps = {
+  data: ReadonlyArray<any>,
+};
+
+export default function Slider(props: SliderProps) {
   const {
     data,
   } = props;
@@ -63,7 +69,7 @@ export default function Slider(props) {
               // autoplayInterval={ 3000 }
               onSnapToItem={ setSlider1ActiveSlide }
             />
-            {/*<Pagination
+            {/* <Pagination
               dotsLength={ data.length }
               activeDotIndex={ slider1ActiveSlide }
               containerStyle={ styles.paginationContainer }
@@ -74,7 +80,7 @@ export default function Slider(props) {
               inactiveDotScale={ 0.6 }
               carouselRef={ sliderRef.current }
               tappableDots={ !!sliderRef.current }
-            />*/}
+            /> */}
           </View>
         </ScrollView>
       </View>

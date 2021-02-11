@@ -28,6 +28,7 @@ module.exports = {
     'max-len': ['error', 120, 4, {'ignoreComments': true}],
     'implicit-arrow-linebreak': 0,
     'arrow-body-style': 0, // we have comments in empty function body
+    'spaced-comment': 0,
 
     'react/no-unused-prop-types': 'warn',
 

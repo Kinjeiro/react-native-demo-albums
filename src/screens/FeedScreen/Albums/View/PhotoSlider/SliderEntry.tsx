@@ -4,7 +4,7 @@ import {
 } from 'react-native';
 import { ParallaxImage } from 'react-native-snap-carousel';
 
-import styles from './SliderEntry.style';
+import styles from './SliderEntryStyle';
 
 type SliderEntryProps = {
   data: Object,

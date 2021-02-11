@@ -9,6 +9,7 @@ import { ListWithSwypesCallback } from '../../../../components/ListWithSwypes/Li
 const AlbumListItem:ListWithSwypesCallback<any> = (itemInfo) => {
   const {
     item: {
+      id,
       title,
       photos,
     },
@@ -27,7 +28,7 @@ const AlbumListItem:ListWithSwypesCallback<any> = (itemInfo) => {
       }}
     >
       <Image source={{ uri: thumbnailUrl }} style={ styles.image } />
-      <Text>#{index}: { title }</Text>
+      <Text>#{id}: { title }</Text>
     </View>
   );
 };

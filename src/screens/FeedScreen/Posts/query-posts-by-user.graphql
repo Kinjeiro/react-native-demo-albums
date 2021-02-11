@@ -1,6 +1,10 @@
-query selectPostsByUser($userId: ID!) {
+query selectPostsByUser($userId: ID!, $page: Int, $limit: Int) {
     user(id: $userId) {
-        posts(options: { paginate: { page: 0, limit: 3 } }) {
+        id
+        posts(options: { paginate: { page: $page, limit: $limit } }) {
+            meta {
+                totalCount
+            }
             data {
                 id
                 title
