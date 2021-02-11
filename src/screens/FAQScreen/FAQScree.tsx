@@ -1,22 +1,11 @@
 import React from 'react';
-import {
-  FlatList, Text, TouchableOpacity, View,
-} from 'react-native';
+import { FlatList, Text, TouchableOpacity, View, } from 'react-native';
 import { RouteProp } from '@react-navigation/native';
 import { createStackNavigator, StackNavigationProp } from '@react-navigation/stack';
 
-import FAQ_DATA, { getBlockById, getBlockName } from './faq-data';
-import FAQScreens from './faq-navigation';
+import FAQ_DATA, { getBlockById } from './faq-data';
+import FAQScreens, { FAQNavigatorParamList } from './faq-navigation';
 
-/*
- initialRouteName,
-  children,
-  screenOptions
- */
-type FAQNavigatorParamList = {
-  [FAQScreens.FAQ_BlocksBLOCKS]: undefined;
-  [FAQScreens.FAQ_BLOCK]: { blockId: string };
-};
 // https://reactnavigation.org/docs/navigation-prop/
 const FAQNavigator = createStackNavigator<FAQNavigatorParamList>();
 
@@ -31,15 +20,18 @@ function FAQBlocks({ navigation }: FAQBlocksProps) {
 
       <FlatList
         data={ FAQ_DATA }
-        renderItem={ ({ item }) => (
+        renderItem={ ({ item: { id, blockTitle } }) => (
           <TouchableOpacity
-            key={ item.id }
+            key={ id }
             style={{ paddingHorizontal: 10, marginTop: 5 }}
             onPress={ () => {
-              navigation.navigate(FAQScreens.FAQ_BLOCK, { blockId: item.id });
+              navigation.navigate(FAQScreens.FAQ_BLOCK, {
+                blockId: id,
+                blockTitle,
+              });
             } }
           >
-            <Text>{ item.block }</Text>
+            <Text>{ blockTitle }</Text>
           </TouchableOpacity>
         ) }
       />
@@ -85,7 +77,7 @@ export default function FAQScreen() {
       <FAQNavigator.Screen
         name={ FAQScreens.FAQ_BLOCK }
         component={ FAQBlock }
-        options={ ({ route }: FAQBlockProps) => ({ title: getBlockName(route.params.blockId) }) }
+        options={ ({ route }: FAQBlockProps) => ({ title: route.params.blockTitle }) }
       />
     </FAQNavigator.Navigator>
   );
