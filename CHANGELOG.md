@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.5](https://github.com/mokkapps/changelog-generator-demo/compare/v0.0.4...v0.0.5) (2021-02-11)
+
+
+### Features
+
+* **hooks:** create useLoadMore hook for VirtualizedList ([fd5575b](https://github.com/mokkapps/changelog-generator-demo/commits/fd5575b56b1d1bc0ce7461f703c1adc1ce1ef0e8))
+
 ### [0.0.4](https://github.com/mokkapps/changelog-generator-demo/compare/v0.0.3...v0.0.4) (2021-02-11)
 
 
