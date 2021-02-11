@@ -1,0 +1,11 @@
+query selectPostsByUser($userId: ID!) {
+    user(id: $userId) {
+        posts(options: { paginate: { page: 0, limit: 3 } }) {
+            data {
+                id
+                title
+                body
+            }
+        }
+    }
+}
