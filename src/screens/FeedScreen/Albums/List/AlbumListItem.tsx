@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  Image, StyleSheet, Text, View, 
+  Image, StyleSheet, Text, View,
 } from 'react-native';
 
 import { ListWithSwypesCallback } from '../../../../components/ListWithSwypes/ListWithSwypes';
@@ -20,7 +20,7 @@ const AlbumListItem:ListWithSwypesCallback<any> = (itemInfo) => {
   return (
     <View>
       <Text>{ title }</Text>
-      <Image source={ thumbnailUrl } style={ styles.image } />
+      <Image source={{ uri: thumbnailUrl }} style={ styles.image } />
     </View>
   );
 };

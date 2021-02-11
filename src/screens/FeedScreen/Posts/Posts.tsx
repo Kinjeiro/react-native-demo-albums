@@ -13,6 +13,7 @@ import PostListItem from './PostListItem';
 const QUERY_POSTS_BY_USER = gql`
     query selectPostsByUser($userId: ID!) {
         user(id: $userId) {
+            id
             posts(options: { paginate: { page: 0, limit: 3 } }) {
                 data {
                     id

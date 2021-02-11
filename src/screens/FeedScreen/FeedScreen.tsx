@@ -43,7 +43,11 @@ export default function FeedScreen() {
         component={ FeedTabsScreen }
         options={{ title: 'Feed' }}
       />
-      <FeedNavigator.Screen name={ FeedScreens.ALBUM_VIEW } component={ AlbumViewScreen } />
+      <FeedNavigator.Screen
+        name={ FeedScreens.ALBUM_VIEW }
+        component={ AlbumViewScreen }
+        options={ ({ route }: AlbumViewScreenProps) => ({ title: route.params.albumTitle }) }
+      />
       <FeedNavigator.Screen name={ FeedScreens.ALBUM_CREATE } component={ AlbumCreateScreen } />
     </FeedNavigator.Navigator>
   );
