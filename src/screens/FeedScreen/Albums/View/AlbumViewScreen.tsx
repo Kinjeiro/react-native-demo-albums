@@ -1,12 +1,7 @@
-import {
-  Image, StyleSheet, Text, View,
-} from 'react-native';
 import React, { useState } from 'react';
 import { RouteProp } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { gql, useQuery } from '@apollo/client';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import Carousel, { Pagination } from 'react-native-snap-carousel';
 
 import Loading from '../../../../components/Loading/Loading';
 
@@ -14,8 +9,6 @@ import Loading from '../../../../components/Loading/Loading';
 // MODULE
 // ======================================================
 import FeedScreens, { FeedScreensParamList } from '../../feed-navigation';
-import CommonStyles from '../../../../styles/common-styles';
-import { viewportWidth } from '../../../../styles/dimensions';
 import Slider from './Slider/Slider';
 
 const QUERY_ALBUM_BY_ID = gql`

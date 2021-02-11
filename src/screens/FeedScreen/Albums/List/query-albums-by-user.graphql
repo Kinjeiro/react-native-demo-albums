@@ -1,7 +1,7 @@
-query selectAlbumsByUser($userId: ID!) {
+query selectAlbumsByUser($userId: ID!, $page: Int, $limit: Int) {
     user(id: $userId) {
         id
-        albums(options: { paginate: { page: 0, limit: 3 } }) {
+        albums(options: { paginate: { page: $page, limit: $limit } }) {
             data {
                 id
                 title

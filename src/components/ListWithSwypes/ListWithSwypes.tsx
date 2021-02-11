@@ -57,9 +57,7 @@ export default function ListWithSwypes(props: ListWithSwypesProps) {
       // todo @ANKU @LOW - Color
       underlayColor="#AAA"
     >
-      <View>
-        { renderItem(rowData) }
-      </View>
+      { renderItem(rowData) }
     </TouchableHighlight>
   );
 
@@ -140,7 +138,8 @@ const styles = StyleSheet.create({
     borderBottomColor: 'black',
     borderBottomWidth: 1,
     justifyContent: 'center',
-    height: 50,
+    // todo @ANKU @CRIT @MAIN - настроить это параметром
+    height: 300,
   },
   rowBack: {
     alignItems: 'center',

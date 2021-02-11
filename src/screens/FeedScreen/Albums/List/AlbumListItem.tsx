@@ -12,15 +12,22 @@ const AlbumListItem:ListWithSwypesCallback<any> = (itemInfo) => {
       title,
       photos,
     },
+    index,
   } = itemInfo;
 
   // todo @ANKU @LOW - если не будет фотки
   const { thumbnailUrl } = photos.data[0] || {};
 
   return (
-    <View>
-      <Text>{ title }</Text>
+    <View
+      style={{
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'flex-start',
+      }}
+    >
       <Image source={{ uri: thumbnailUrl }} style={ styles.image } />
+      <Text>#{index}: { title }</Text>
     </View>
   );
 };
