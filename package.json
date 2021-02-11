@@ -16,7 +16,7 @@
     "release:patch": "standard-version --release-as patch",
     "release:major": "standard-version --release-as major",
     "patch-publish-push": "npm run release:patch && git push --no-verify",
-    "postinstall": "husky install",
+    "postinstall": "bash ./scripts/fix-for-web.sh && npx husky install",
     "prepublishOnly": "pinst --disable",
     "postpublish": "pinst --enable"
   },
