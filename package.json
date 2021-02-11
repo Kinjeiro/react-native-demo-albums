@@ -10,10 +10,12 @@
     "start": "react-native start",
     "test": "jest",
     "lint": "tsc --noEmit && eslint --ext .js,.jsx,.ts,.tsx ./",
+
     "release": "standard-version",
     "release:minor": "standard-version --release-as minor",
     "release:patch": "standard-version --release-as patch",
-    "release:major": "standard-version --release-as major"
+    "release:major": "standard-version --release-as major",
+    "patch-publish-push": "npm run release:patch && git push --no-verify"
   },
   "lint-staged": {
     "src/**/*.{ts,tsx}": [
@@ -24,7 +26,7 @@
     "hooks": {
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
       "pre-commit": "lint-staged",
-      "pre-push": "npm run eslint"
+      "pre-push": "(git-branch-is master && git pull --rebase --no-verify && npm run patch-publish-push) || echo 'not master'"
     }
   },
   "jest": {
@@ -45,6 +47,7 @@
     "expo-app-loading": "~1.0.1",
     "expo-splash-screen": "~0.8.0",
     "expo-updates": "~0.4.0",
+    "git-branch-is": "~4.0.0",
     "graphql": "~15.5.0",
     "graphql-tag": "~2.11.0",
     "graphql.macro": "~1.4.2",
