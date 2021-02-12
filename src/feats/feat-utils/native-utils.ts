@@ -9,10 +9,8 @@ export const viewportWidth = windowDimensions.width;
 export const viewportHeight = windowDimensions.height;
 
 export function widthPercentToPx(percentage: number) {
-  const value = (percentage * viewportWidth) / 100;
-  return Math.round(value);
+  return Math.round((percentage * viewportWidth) / 100);
 }
 export function heightPercentToPx(percentage: number) {
-  const value = (percentage * viewportHeight) / 100;
-  return Math.round(value);
+  return Math.round((percentage * viewportHeight) / 100);
 }

@@ -3,6 +3,7 @@ import {
   ActivityIndicator, FlatList, ListRenderItemInfo, View
 } from 'react-native';
 import { gql } from '@apollo/client';
+import { useTheme } from 'react-native-paper';
 
 import Loading from '../../../components/Loading/Loading';
 import useLoadMore from '../../../hooks/use-load-more';
@@ -11,7 +12,6 @@ import useLoadMore from '../../../hooks/use-load-more';
 // MODULE
 // ======================================================
 import PostListItem from './PostListItem';
-import { useTheme } from 'react-native-paper';
 
 // todo @ANKU @LOW - paging
 const QUERY_POSTS_BY_USER = gql`

@@ -5,7 +5,7 @@ import { useTheme, IconButton } from 'react-native-paper';
 
 import FeedScreen from './screens/FeedScreen/FeedScreen';
 import FAQPage from './screens/FAQScreen/FAQPage';
-import ProfileScreen from './screens/ProfileScreen/ProfileScreen';
+import UserProfilePage from './screens/ProfileScreen/UserProfilePage';
 
 import RootScreens from './root-navigation';
 
@@ -48,7 +48,7 @@ export default function RootNavigation() {
         />
         <FooterTabs.Screen
           name={ RootScreens.PROFILE }
-          component={ ProfileScreen }
+          component={ UserProfilePage }
           options={{
             tabBarIcon: ({ color }) => (
               <IconButton icon="camera" color={ color } />
