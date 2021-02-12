@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   StyleSheet,
   Text,
@@ -9,12 +9,13 @@ import {
 } from 'react-native';
 
 import { RowMap, SwipeListView } from 'react-native-swipe-list-view';
+import { IconButton, useTheme } from 'react-native-paper';
 
 // todo @ANKU @LOW - сделать по нормальному с пробрасыванием типа (IPropsSwipeListView.renderHiddenItem)
 type Callback = (rowData: ListRenderItemInfo<any>, rowMap: RowMap<any>) => Promise;
 export type ListWithSwypesCallback<Item> = ((rowData: ListRenderItemInfo<Item>) => Promise | void);
 
-type ListWithSwypesProps = {
+interface ListWithSwypesProps {
   data: any,
 
   renderItem: ListWithSwypesCallback<any>,
@@ -22,7 +23,7 @@ type ListWithSwypesProps = {
   onClickRow?: ListWithSwypesCallback<any> | undefined,
   onCloseRow?: ListWithSwypesCallback<any> | undefined,
   onDeleteRow?: ListWithSwypesCallback<any> | undefined,
-};
+}
 
 export default function ListWithSwypes(props: ListWithSwypesProps) {
   const {
@@ -35,6 +36,8 @@ export default function ListWithSwypes(props: ListWithSwypesProps) {
 
     ...restProps
   } = props;
+
+  const { colors } = useTheme();
 
   const handleCloseRow:Callback = async (rowData, rowMap) => {
     const rowKey = rowData.item.key;
@@ -50,12 +53,35 @@ export default function ListWithSwypes(props: ListWithSwypesProps) {
     }
   };
 
+  // todo @ANKU @LOW - вынести это и унифицировать
   const innerRenderItem:Callback = (rowData) => (
     <TouchableHighlight
       onPress={ onClickRow && (() => onClickRow(rowData)) }
-      style={ styles.rowFront }
-      // todo @ANKU @LOW - Color
-      underlayColor="#AAA"
+      style={{
+        flex: 1,
+        //height: 300,
+
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'flex-start',
+
+        // обязателен, так как под ним actions скрыты
+        backgroundColor: colors.background,
+        //backgroundColor: 'red',
+
+        // не получится использовать так как там бэкграунт нужен чтобы прикрыть экшены
+        //box-shadow: inset 0px -1px 0px #F2F2F2;
+        //shadowColor: colors.listItemShadow,
+        //shadowOffset: {
+        //  width: 0,
+        //  height: 3,
+        //},
+        //shadowOpacity: 0.25,
+        //shadowRadius: 3.84,
+        borderBottomColor: colors.listItemShadow,
+        borderBottomWidth: 3,
+      }}
+      underlayColor={ colors.background }
     >
       { renderItem(rowData) }
     </TouchableHighlight>
@@ -71,20 +97,32 @@ export default function ListWithSwypes(props: ListWithSwypesProps) {
       {
         onCloseRow && (
           <TouchableOpacity
-            style={ [styles.backRightBtn, styles.backRightBtnLeft] }
+            style={ [
+              styles.backRightBtn,
+              styles.backRightBtnLeft,
+              {
+                backgroundColor: colors.primary,
+              },
+            ] }
             onPress={ () => handleCloseRow(rowData, rowMap) }
           >
-            <Text style={ styles.backTextWhite }>Close</Text>
+            <Text style={{ color: '#fff' }}>Close</Text>
           </TouchableOpacity>
         )
       }
       {
         onDeleteRow && (
           <TouchableOpacity
-            style={ [styles.backRightBtn, styles.backRightBtnRight] }
+            style={ [
+              styles.backRightBtn,
+              styles.backRightBtnRight,
+              {
+                backgroundColor: colors.errorBackground,
+              },
+            ] }
             onPress={ () => handleDeleteRow(rowData, rowMap) }
           >
-            <Text style={ styles.backTextWhite }>Delete</Text>
+            <IconButton icon="trash-can-outline" color={ colors.error } />
           </TouchableOpacity>
         )
       }
@@ -129,21 +167,9 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     flex: 1,
   },
-  backTextWhite: {
-    color: '#FFF',
-  },
-  rowFront: {
-    alignItems: 'center',
-    backgroundColor: '#CCC',
-    borderBottomColor: 'black',
-    borderBottomWidth: 1,
-    justifyContent: 'center',
-    // todo @ANKU @CRIT @MAIN - настроить это параметром
-    height: 300,
-  },
   rowBack: {
     alignItems: 'center',
-    backgroundColor: '#DDD',
+    //backgroundColor: '#DDD',
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -158,11 +184,9 @@ const styles = StyleSheet.create({
     width: 75,
   },
   backRightBtnLeft: {
-    backgroundColor: 'blue',
     right: 75,
   },
   backRightBtnRight: {
-    backgroundColor: 'red',
     right: 0,
   },
 });

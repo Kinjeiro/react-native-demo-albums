@@ -2,8 +2,7 @@ import React from 'react';
 import { createStackNavigator, StackNavigationProp } from '@react-navigation/stack';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { RouteProp } from '@react-navigation/native';
-
-import { COLOR_HEADER_BG } from '../../styles/colors';
+import { useTheme } from 'react-native-paper';
 
 // ======================================================
 // MODULE
@@ -23,25 +22,60 @@ type FeedTabsScreenProps = {
   navigation: StackNavigationProp<FeedScreensParamList, FeedScreens.FEED>;
 };
 function FeedTabsScreen(props: FeedTabsScreenProps) {
+  const { colors } = useTheme();
+
   return (
-    <FeedTabs.Navigator swipeEnabled={ false }>
-      <FeedTabs.Screen name="AlbumsTab" component={ AlbumsScreen } />
-      <FeedTabs.Screen name="PostsTab" component={ Posts } />
+    <FeedTabs.Navigator
+      swipeEnabled={ false }
+      style={{
+        // todo @ANKU @LOW - бордер над табами
+        borderWidth: 0,
+      }}
+      tabBarOptions={{
+        // todo @ANKU @LOW - заглавные буквы, вместо прописных на табах
+        activeTintColor: colors.text,
+        inactiveTintColor: colors.disabled,
+      }}
+    >
+      <FeedTabs.Screen
+        name="AlbumsTab"
+        component={ AlbumsScreen }
+        options={{ title: 'Albums' }}
+      />
+      <FeedTabs.Screen
+        name="PostsTab"
+        component={ Posts }
+        options={{ title: 'Posts' }}
+      />
     </FeedTabs.Navigator>
   );
 }
 
 export default function FeedScreen() {
+  const { colors } = useTheme();
+
   return (
     <FeedNavigator.Navigator
       screenOptions={{
-        headerStyle: { backgroundColor: COLOR_HEADER_BG },
+        headerStyle: {
+          backgroundColor: colors.background,
+          //borderWidth: 2,
+        },
+        headerTitleAlign: 'center',
+        headerTitleStyle: {
+          fontWeight: '500',
+          fontSize: 17,
+
+          //textTransform: 'uppercase',
+
+          color: colors.text,
+        },
       }}
     >
       <FeedNavigator.Screen
         name={ FeedScreens.FEED }
         component={ FeedTabsScreen }
-        options={{ title: 'Feed' }}
+        options={{ title: 'FEED' }}
       />
       <FeedNavigator.Screen
         name={ FeedScreens.ALBUM_VIEW }

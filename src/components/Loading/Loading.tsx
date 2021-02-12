@@ -3,7 +3,7 @@ import { View, ActivityIndicator } from 'react-native';
 
 // todo @ANKU @LOW - сделать алиасы
 import CommonStyles from '../../styles/common-styles';
-import { COLOR_FOOTER_TABS_BG } from '../../styles/colors';
+import { COLOR_FOOTER_TABS_BG } from '../../feats/feat-theme/colors';
 
 export default function Loading() {
   return (

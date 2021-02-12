@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { ActivityIndicator } from 'react-native';
+import { ActivityIndicator, View } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { gql, useQuery } from '@apollo/client';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { Button, Text } from 'react-native-paper';
 
 // todo @ANKU @LOW - ошибка при использовани лоадера
 // Unable to resolve module path from react-native-demo-albums\node_modules\graphql.macro\lib\utils\expandImports.js: path could not be found within the project.
@@ -9,17 +11,20 @@ import { gql, useQuery } from '@apollo/client';
 // // todo @ANKU @CRIT @MAIN - перевести на webpack loader - graphql-tag/loader
 // const queryAlbumsByUser = loader('./query-albums-by-user.graphql');
 
-import { SafeAreaView } from 'react-native-safe-area-context';
 import Loading from '../../../../components/Loading/Loading';
 import ListWithSwypes, { ListWithSwypesCallback } from '../../../../components/ListWithSwypes/ListWithSwypes';
-
-import FeedScreens from '../../feed-navigation';
-import AlbumListItem from './AlbumListItem';
 import useLoadMore from '../../../../hooks/use-load-more';
 
-type AlbumsProps = {
-  navigation: StackNavigationProp<any>;
-};
+
+// ======================================================
+// MODULE
+// ======================================================
+import FeedScreens from '../../feed-navigation';
+import AlbumListItem from './AlbumListItem';
+
+interface AlbumsProps {
+  navigation: StackNavigationProp<any>
+}
 const QUERY_ALBUMS_BY_USER = gql`
     query selectAlbumsByUser($userId: ID!, $page: Int, $limit: Int) {
         user(id: $userId) {
@@ -31,6 +36,9 @@ const QUERY_ALBUMS_BY_USER = gql`
                 data {
                     id
                     title
+                    user {
+                        name
+                    }
                     photos {
                         data {
                             id
@@ -120,6 +128,9 @@ export default function AlbumsScreen({ navigation }: AlbumsProps) {
   // const goToView = () => navigation.navigate(FeedScreens.ALBUM_VIEW);
   // const goToCreate = () => navigation.navigate(FeedScreens.ALBUM_CREATE);
 
+  const handleCreateAlbum = () =>
+    navigation.navigate(FeedScreens.ALBUM_CREATE);
+
   const handleClickRow: ListWithSwypesCallback<any> = async ({ item: { id, title } }) =>
     navigation.navigate(FeedScreens.ALBUM_VIEW, {
       albumId: id,
@@ -130,6 +141,27 @@ export default function AlbumsScreen({ navigation }: AlbumsProps) {
     console.warn('ANKU , delete', rowData);
   };
 
+  const renderHeader = () => {
+    return (
+      <View
+        style={{
+          justifyContent: 'center',
+          paddingLeft: 33,
+          paddingRight: 33,
+          marginTop: 16,
+          marginBottom: 16,
+        }}
+      >
+        <Button
+          mode="contained"
+          uppercase={ false }
+          onPress={ handleCreateAlbum }
+        >
+          Add album
+        </Button>
+      </View>
+    );
+  };
   const renderFooter = () => {
     return loading
       ? (
@@ -139,7 +171,11 @@ export default function AlbumsScreen({ navigation }: AlbumsProps) {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <View
+      style={{
+        flex: 1,
+      }}
+    >
       {
         !records ? (
           <Loading />
@@ -154,7 +190,7 @@ export default function AlbumsScreen({ navigation }: AlbumsProps) {
             /// / Item Key
             // keyExtractor={ (item, index) => String(index) }
             // Header (Title)
-            // ListHeaderComponent={ renderHeader }
+            ListHeaderComponent={ renderHeader }
             // Footer (Activity Indicator)
             ListFooterComponent={ renderFooter }
 
@@ -173,6 +209,6 @@ export default function AlbumsScreen({ navigation }: AlbumsProps) {
           />
         )
       }
-    </SafeAreaView>
+    </View>
   );
 }
