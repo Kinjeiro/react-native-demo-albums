@@ -58,7 +58,7 @@ function FeedTabsScreen(props: FeedTabsScreenProps) {
   );
 }
 
-export default function FeedScreen() {
+export default function FeedPage() {
   return (
     <FeedNavigator.Navigator
       screenOptions={ getSlackNavigatorScreenOptions(useTheme()) }

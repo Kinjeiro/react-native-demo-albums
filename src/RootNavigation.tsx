@@ -3,9 +3,9 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import { useTheme, IconButton } from 'react-native-paper';
 
-import FeedScreen from './screens/FeedScreen/FeedScreen';
-import FAQPage from './screens/FAQScreen/FAQPage';
-import UserProfilePage from './screens/ProfileScreen/UserProfilePage';
+import FeedPage from './modules/module-feed/FeedPage';
+import FAQPage from './modules/module-faq/FAQPage';
+import UserProfilePage from './modules/module-profile/UserProfilePage';
 
 import RootScreens from './root-navigation';
 
@@ -30,7 +30,7 @@ export default function RootNavigation() {
       >
         <FooterTabs.Screen
           name={ RootScreens.FEED }
-          component={ FeedScreen }
+          component={ FeedPage }
           options={{
             tabBarIcon: ({ color }) => (
               <IconButton icon="camera" color={ color } />
