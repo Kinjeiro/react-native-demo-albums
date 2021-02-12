@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.8](https://github.com/mokkapps/changelog-generator-demo/compare/v0.0.7...v0.0.8) (2021-02-12)
+
+
+### Features
+
+* **module_profile:** styling Profile module ([4707318](https://github.com/mokkapps/changelog-generator-demo/commits/470731877816f885e6c7258f7a79661ab5c375df))
+
 ### [0.0.7](https://github.com/mokkapps/changelog-generator-demo/compare/v0.0.6...v0.0.7) (2021-02-12)
 
 
