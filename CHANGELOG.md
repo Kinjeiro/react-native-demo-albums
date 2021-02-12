@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.7](https://github.com/mokkapps/changelog-generator-demo/compare/v0.0.6...v0.0.7) (2021-02-12)
+
+
+### Features
+
+* **comp:** add common SmallText component with 10 fontSize \ add font-size.config.ts ([a50d325](https://github.com/mokkapps/changelog-generator-demo/commits/a50d325b4bbcdb3969051388daae92c2b81b55a6))
+* **comp:** add GetStyle Type and new patter: get style from theme ([0fdb254](https://github.com/mokkapps/changelog-generator-demo/commits/0fdb254c054bbef23faa28b6de64328f010a29fd))
+* **comp:** add global native component style override functionality ([0a9b25e](https://github.com/mokkapps/changelog-generator-demo/commits/0a9b25e07f10770d5fea4f7a87823fc336571274))
+* **module_faq:** styling FAQ module ([a0608f8](https://github.com/mokkapps/changelog-generator-demo/commits/a0608f8dc1307f68db5be823cfbe38f5596e3134))
+* **module_feed:** styling Feed module, add fontSize and backgrounds ([bc03b6e](https://github.com/mokkapps/changelog-generator-demo/commits/bc03b6e686a37f49e08c40d9f9b28673485b508b))
+
+
+### Chore
+
+* **depen:** link lodash for utils ([bbb0218](https://github.com/mokkapps/changelog-generator-demo/commits/bbb0218a87ccc1aef75e32009c0707b618315c13))
+
 ### [0.0.6](https://github.com/mokkapps/changelog-generator-demo/compare/v0.0.5...v0.0.6) (2021-02-12)
 
 
