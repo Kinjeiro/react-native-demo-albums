@@ -3,6 +3,7 @@ import { configureFonts, DefaultTheme, Provider as PaperProvider } from 'react-n
 
 import fontConfig from './font.config';
 import colors from './colors.config';
+import GlobalFixing from '../../components-overriden/fix-all';
 
 declare global {
   namespace ReactNativePaper {
@@ -27,6 +28,11 @@ const theme : ReactNativePaper.Theme = {
   // Specify custom property
   myOwnProperty: true,
 };
+
+/*
+  @NOTE: ФИКСЫ стилей и шрифтов
+*/
+GlobalFixing.fixAll();
 
 export default function AppThemeProvider({ children }: React.PropsWithChildren<any>) {
   // todo @ANKU @LOW - здесь можно настроить dark mode - https://github.com/callstack/react-native-paper/blob/main/example/src/index.tsx
