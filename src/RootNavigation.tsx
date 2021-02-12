@@ -4,7 +4,7 @@ import { createMaterialBottomTabNavigator } from '@react-navigation/material-bot
 import { useTheme, IconButton } from 'react-native-paper';
 
 import FeedScreen from './screens/FeedScreen/FeedScreen';
-import FAQScreen from './screens/FAQScreen/FAQScree';
+import FAQPage from './screens/FAQScreen/FAQPage';
 import ProfileScreen from './screens/ProfileScreen/ProfileScreen';
 
 import RootScreens from './root-navigation';
@@ -39,7 +39,7 @@ export default function RootNavigation() {
         />
         <FooterTabs.Screen
           name={ RootScreens.FAQ }
-          component={ FAQScreen }
+          component={ FAQPage }
           options={{
             tabBarIcon: ({ color }) => (
               <IconButton icon="camera" color={ color } />

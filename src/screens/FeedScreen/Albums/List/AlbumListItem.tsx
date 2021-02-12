@@ -66,18 +66,6 @@ const getStyles : GetStyle = ({ colors }) => ({
     alignItems: 'center',
     marginLeft: 16,
     marginRight: 16,
-
-    // не получится использовать так как там бэкграунт нужен чтобы прикрыть экшены
-    //box-shadow: inset 0px -1px 0px #F2F2F2;
-    //shadowColor: colors.listItemShadow,
-    //shadowOffset: {
-    //  width: 0,
-    //  height: 3,
-    //},
-    //shadowOpacity: 0.25,
-    //shadowRadius: 3.84,
-    borderBottomColor: colors.listItemShadow,
-    borderBottomWidth: 3,
   },
   imageContainer: {
     borderRadius: 5,

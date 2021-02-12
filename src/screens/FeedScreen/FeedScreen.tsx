@@ -12,6 +12,7 @@ import AlbumViewScreen, { AlbumViewScreenProps } from './Albums/View/AlbumViewSc
 import AlbumCreateScreen from './Albums/Create/AlbumCreateScreen';
 import Posts from './Posts/Posts';
 import FeedScreens, { FeedScreensParamList } from './feed-navigation';
+import { getSlackNavigatorScreenOptions } from '../../styles/common-styles';
 
 const FeedTabs = createMaterialTopTabNavigator();
 
@@ -58,25 +59,9 @@ function FeedTabsScreen(props: FeedTabsScreenProps) {
 }
 
 export default function FeedScreen() {
-  const { colors } = useTheme();
-
   return (
     <FeedNavigator.Navigator
-      screenOptions={{
-        headerStyle: {
-          backgroundColor: colors.background,
-          //borderWidth: 2,
-        },
-        headerTitleAlign: 'center',
-        headerTitleStyle: {
-          fontWeight: '500',
-          fontSize: 17,
-
-          //textTransform: 'uppercase',
-
-          color: colors.text,
-        },
-      }}
+      screenOptions={ getSlackNavigatorScreenOptions(useTheme()) }
     >
       <FeedNavigator.Screen
         name={ FeedScreens.FEED }

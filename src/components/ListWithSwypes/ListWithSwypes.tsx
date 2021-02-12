@@ -69,6 +69,7 @@ function ListWithSwypes(props: ListWithSwypesProps) {
   // todo @ANKU @LOW - вынести это и унифицировать
   const innerRenderItem:Callback = (rowData, rowMap) => (
     <TouchableHighlight
+      key={ rowData.item.id || rowData.index }
       onPress={ onClickRow && (() => onClickRow(rowData)) }
       style={ styles.item }
       underlayColor={ colors.background }
@@ -179,6 +180,18 @@ const getStyles : GetStyle = ({ colors }) => ({
     // обязателен, так как под ним actions скрыты
     backgroundColor: colors.background,
     //backgroundColor: 'red',
+
+    // не получится использовать так как там бэкграунт нужен чтобы прикрыть экшены
+    //box-shadow: inset 0px -1px 0px #F2F2F2;
+    //shadowColor: colors.listItemShadow,
+    //shadowOffset: {
+    //  width: 0,
+    //  height: 3,
+    //},
+    //shadowOpacity: 0.25,
+    //shadowRadius: 3.84,
+    borderBottomColor: colors.listItemDelimiter,
+    borderBottomWidth: 1,
   },
 
   container: {

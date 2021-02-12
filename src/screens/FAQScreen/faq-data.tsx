@@ -1,29 +1,45 @@
+/* eslint-disable */
 const FAQ_DATA = [
   {
     id: '1',
-    blockTitle: 'Block 1',
+    blockTitle: 'Authorization Issues',
     faq: [
-      { id: '11', question: 'question11', answer: 'answer 11' },
-      { id: '12', question: 'question12', answer: 'answer 12' },
-      { id: '13', question: 'question13', answer: 'answer 13' },
+      {
+        id: '11',
+        question: 'What moderation means?',
+        answer: 'If you don’t have a social profile, make sure that your profile section is filled out with your best work. Not having a social profile will limit your campaign offers, but it’s still possible to get projects on Insense without an active social presence.\n'
+          + 'If you don’t have a social profile, make sure that your.',
+      },
+      {
+        id: '12',
+        question: 'How to register and start working with the app?',
+        answer: 'If you don’t have a social profile, make sure that your profile section is filled out with your best work. Not having a social profile will limit your campaign offers, but it’s still possible to get projects on Insense without an active social presence.\n'
+          + 'If you don’t have a social profile, make sure that your.',
+      },
+      {
+        id: '13',
+        question: 'Will receive offers from brands?',
+        answer: 'If you don’t have a social profile, make sure that your profile section is filled out with your best work. Not having a social profile will limit your campaign offers, but it’s still possible to get projects on Insense without an active social presence.\n'
+          + 'If you don’t have a social profile, make sure that your.',
+      },
     ],
   },
   {
     id: '2',
-    blockTitle: 'Block 2',
+    blockTitle: 'The first steps',
     faq: [
-      { id: '21', question: 'question21', answer: 'answer 21' },
-      { id: '22', question: 'question22', answer: 'answer 22' },
-      { id: '23', question: 'question23', answer: 'answer 23' },
+      { id: '21', question: 'What moderation means?', answer: 'is ideal for Instagram or YouTube creators. If you do not have an account on these platforms, you are still welcome to join Insense - the main thing we’re after is the ability to create high quality content. is ideal for Instagram or YouTube creators. If you do not have an accountnt.' },
+      { id: '22', question: 'How to register and start working with the app?', answer: 'is ideal for Instagram or YouTube creators. If you do not have an account on these platforms, you are still welcome to join Insense - the main thing we’re after is the ability to create high quality content. is ideal for Instagram or YouTube creators. If you do not have an accountnt.' },
+      { id: '23', question: 'Who can become an Insense user?', answer: 'is ideal for Instagram or YouTube creators. If you do not have an account on these platforms, you are still welcome to join Insense - the main thing we’re after is the ability to create high quality content. is ideal for Instagram or YouTube creators. If you do not have an accountnt.' },
     ],
   },
   {
     id: '3',
-    blockTitle: 'Block 3',
+    blockTitle: 'Payment',
     faq: [
-      { id: '31', question: 'question31', answer: 'answer 31' },
-      { id: '32', question: 'question32', answer: 'answer 32' },
-      { id: '33', question: 'question33', answer: 'answer 33' },
+      { id: '31', question: 'How can I be sure that I will be paid?', answer: 'All brands working on Insense have pre-paid for creator content. When a brand approves you for working on a campaign, the agreed-upon payment amount is immediately frozen on the brand’s account. As soon as you complete your project with the brand, your payment ' },
+      { id: '32', question: 'What’s the payment process?', answer: 'All brands working on Insense have pre-paid for creator content. When a brand approves you for working on a campaign, the agreed-upon payment amount is immediately frozen on the brand’s account. As soon as you complete your project with the brand, your payment ' },
+      { id: '33', question: 'Is my income at Insense being taxed?', answer: 'All brands working on Insense have pre-paid for creator content. When a brand approves you for working on a campaign, the agreed-upon payment amount is immediately frozen on the brand’s account. As soon as you complete your project with the brand, your payment ' },
     ],
   },
 ];
