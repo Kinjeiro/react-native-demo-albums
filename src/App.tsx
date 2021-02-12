@@ -1,12 +1,15 @@
 import React from 'react';
 
-import GraphQlWrapper from './GraphQLWrapper';
+import AppGraphQLProvider from './feats/feat-graphql/AppGraphQLProvider';
+import AppThemeProvider from './feats/feat-theme/AppThemeProvider';
 import RootNavigation from './RootNavigation';
 
 export default function App() {
   return (
-    <GraphQlWrapper>
-      <RootNavigation />
-    </GraphQlWrapper>
+    <AppGraphQLProvider>
+      <AppThemeProvider>
+        <RootNavigation />
+      </AppThemeProvider>
+    </AppGraphQLProvider>
   );
 }

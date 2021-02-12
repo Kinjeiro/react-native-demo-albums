@@ -5,20 +5,21 @@ import {
 import { persistCache } from 'apollo3-cache-persist';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import AppLoading from 'expo-app-loading';
+import GRAPHQL_CONFIG from './config';
 
-// todo @ANKU @CRIT @MAIN - вынести в конфиги
-const httpLink = new HttpLink({ uri: 'https://graphqlzero.almansi.me/api' });
+const httpLink = new HttpLink({ uri: GRAPHQL_CONFIG.endpointUri });
 
 const cache = new InMemoryCache({
   typePolicies: {
     Query: {
       fields: {
-        project: {
-          merge: true,
-          // merge(existing, incoming) {
-          //  return incoming;
-          // },
-        },
+        // todo @ANKU @LOW - использовать новые полиси
+        //project: {
+        //  merge: true,
+        //  // merge(existing, incoming) {
+        //  //  return incoming;
+        //  // },
+        //},
       },
     },
   },
@@ -50,7 +51,7 @@ const client = new ApolloClient({
   },
 });
 
-export default function GraphQLWrapper({ children }: React.PropsWithChildren<any>) {
+export default function AppGraphQLProvider({ children }: React.PropsWithChildren<any>) {
   const [loadingCache, setLoadingCache] = useState(true);
 
   useEffect(() => {
