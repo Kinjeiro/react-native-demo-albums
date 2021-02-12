@@ -40,4 +40,13 @@ module.exports = {
     '@typescript-eslint/no-use-before-define': 0,
     '@typescript-eslint/no-unused-vars': 'warn'
   },
+  "overrides": [
+    {
+      // ignore prop-types in mixed JS/TypeScript projects
+      "files": ["**/*.ts?(x)"],
+      "rules": {
+        "react/prop-types": "off"
+      }
+    }
+  ]
 };
