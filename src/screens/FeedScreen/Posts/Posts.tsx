@@ -1,15 +1,17 @@
-import React, { useState } from 'react';
-import { ActivityIndicator, FlatList, Text, View } from 'react-native';
-import { gql, useQuery } from '@apollo/client';
+import React from 'react';
+import {
+  ActivityIndicator, FlatList, ListRenderItemInfo, View
+} from 'react-native';
+import { gql } from '@apollo/client';
 
 import Loading from '../../../components/Loading/Loading';
+import useLoadMore from '../../../hooks/use-load-more';
 
 // ======================================================
 // MODULE
 // ======================================================
 import PostListItem from './PostListItem';
-import ListWithSwypes from '../../../components/ListWithSwypes/ListWithSwypes';
-import useLoadMore from '../../../hooks/use-load-more';
+import { useTheme } from 'react-native-paper';
 
 // todo @ANKU @LOW - paging
 const QUERY_POSTS_BY_USER = gql`
@@ -24,6 +26,9 @@ const QUERY_POSTS_BY_USER = gql`
                     id
                     title
                     body
+                    user {
+                        name
+                    }
                 }
             }
         }
@@ -31,6 +36,8 @@ const QUERY_POSTS_BY_USER = gql`
 `;
 
 export default function Posts() {
+  const { colors } = useTheme();
+
   const {
     loading,
     records,
@@ -64,17 +71,25 @@ export default function Posts() {
       : null;
   };
 
+  const renderItem = (rowData: ListRenderItemInfo<any>) => {
+    return (
+      <PostListItem rowData={ rowData } />
+    );
+  };
+
   return (
     <View>
-      <Text>FeedPostsSubScreen</Text>
-
       {
         !records ? (
           <Loading />
         ) : (
           <FlatList
             data={ records }
-            renderItem={ PostListItem }
+            renderItem={ renderItem }
+
+            style={{
+              backgroundColor: colors.background,
+            }}
 
             ListFooterComponent={ renderFooter }
             onEndReached={ onLoadMore }

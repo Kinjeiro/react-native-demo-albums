@@ -12,6 +12,7 @@ declare global {
       formViewReadonly: string,
 
       listItemShadow: string,
+      listItemDelimiter: string,
     }
   }
 }
@@ -65,7 +66,9 @@ const colors : Partial<ReactNativePaper.ThemeColors> = {
   formViewLabel: '#404040',
   formViewReadonly: '#A8ACAF',
 
+  //listItemShadow: '#F2F2F2',
   listItemShadow: '#F2F2F2',
+  listItemDelimiter: '#C1C1C1',
 };
 
 export default colors;

@@ -1,6 +1,6 @@
+/* eslint-disable */
 import React from 'react';
 import {
-  StyleSheet,
   Text,
   TouchableOpacity,
   TouchableHighlight,
@@ -8,24 +8,35 @@ import {
   ListRenderItemInfo,
 } from 'react-native';
 
-import { RowMap, SwipeListView } from 'react-native-swipe-list-view';
+import {
+  IUseFlatListProps, IUseSectionListProps, RowMap, SwipeListView,
+} from 'react-native-swipe-list-view';
 import { IconButton, useTheme } from 'react-native-paper';
 
+import GetStyle from '../../feats/feat-utils/get-style-type';
+
+
+// ======================================================
+// MODULE
+// ======================================================
 // todo @ANKU @LOW - сделать по нормальному с пробрасыванием типа (IPropsSwipeListView.renderHiddenItem)
 type Callback = (rowData: ListRenderItemInfo<any>, rowMap: RowMap<any>) => Promise;
 export type ListWithSwypesCallback<Item> = ((rowData: ListRenderItemInfo<Item>) => Promise | void);
 
-interface ListWithSwypesProps {
+//Partial<IUseSectionListProps<any>>,
+//Partial<IUseFlatListProps<any>>,
+type ListWithSwypesProps = Partial<IUseSectionListProps<any>>
+| Partial<IUseFlatListProps<any>>
+| {
   data: any,
 
-  renderItem: ListWithSwypesCallback<any>,
+  renderItem?: ListWithSwypesCallback<any>,
 
-  onClickRow?: ListWithSwypesCallback<any> | undefined,
-  onCloseRow?: ListWithSwypesCallback<any> | undefined,
-  onDeleteRow?: ListWithSwypesCallback<any> | undefined,
-}
-
-export default function ListWithSwypes(props: ListWithSwypesProps) {
+  onClickRow?: ListWithSwypesCallback<any>,
+  onCloseRow?: ListWithSwypesCallback<any>,
+  onDeleteRow?: ListWithSwypesCallback<any>,
+};
+function ListWithSwypes(props: ListWithSwypesProps) {
   const {
     data,
     renderItem,
@@ -37,7 +48,9 @@ export default function ListWithSwypes(props: ListWithSwypesProps) {
     ...restProps
   } = props;
 
-  const { colors } = useTheme();
+  const theme = useTheme();
+  const { colors } = theme;
+  const styles = getStyles(theme);
 
   const handleCloseRow:Callback = async (rowData, rowMap) => {
     const rowKey = rowData.item.key;
@@ -54,36 +67,18 @@ export default function ListWithSwypes(props: ListWithSwypesProps) {
   };
 
   // todo @ANKU @LOW - вынести это и унифицировать
-  const innerRenderItem:Callback = (rowData) => (
+  const innerRenderItem:Callback = (rowData, rowMap) => (
     <TouchableHighlight
       onPress={ onClickRow && (() => onClickRow(rowData)) }
-      style={{
-        flex: 1,
-        //height: 300,
-
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'flex-start',
-
-        // обязателен, так как под ним actions скрыты
-        backgroundColor: colors.background,
-        //backgroundColor: 'red',
-
-        // не получится использовать так как там бэкграунт нужен чтобы прикрыть экшены
-        //box-shadow: inset 0px -1px 0px #F2F2F2;
-        //shadowColor: colors.listItemShadow,
-        //shadowOffset: {
-        //  width: 0,
-        //  height: 3,
-        //},
-        //shadowOpacity: 0.25,
-        //shadowRadius: 3.84,
-        borderBottomColor: colors.listItemShadow,
-        borderBottomWidth: 3,
-      }}
+      style={ styles.item }
       underlayColor={ colors.background }
     >
-      { renderItem(rowData) }
+      {
+        renderItem
+          ? renderItem(rowData, rowMap)
+          // todo @ANKU @LOW - сделать нативный из их внутреннего метода
+          : 'TODO'
+      }
     </TouchableHighlight>
   );
 
@@ -129,9 +124,13 @@ export default function ListWithSwypes(props: ListWithSwypesProps) {
     </View>
   );
 
+  // ======================================================
+  // MAIN RENDER
+  // ======================================================
   return (
     <SwipeListView
       data={ data }
+      style={ styles.root }
 
       renderHiddenItem={ renderHiddenItem }
       renderItem={ innerRenderItem }
@@ -157,14 +156,33 @@ export default function ListWithSwypes(props: ListWithSwypesProps) {
       // onLeftActionStatusChange={ onLeftActionStatusChange }
       // onRightActionStatusChange={ onRightActionStatusChange }
 
-      { ...restProps }
+      {...restProps}
     />
   );
 }
 
-const styles = StyleSheet.create({
+export default React.memo(ListWithSwypes);
+
+
+const getStyles : GetStyle = ({ colors }) => ({
+  root: {
+    backgroundColor: colors.background,
+  },
+  item: {
+    flex: 1,
+    //height: 300,
+
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'flex-start',
+
+    // обязателен, так как под ним actions скрыты
+    backgroundColor: colors.background,
+    //backgroundColor: 'red',
+  },
+
   container: {
-    backgroundColor: 'white',
+    //backgroundColor: 'white',
     flex: 1,
   },
   rowBack: {
@@ -189,4 +207,4 @@ const styles = StyleSheet.create({
   backRightBtnRight: {
     right: 0,
   },
-});
+})

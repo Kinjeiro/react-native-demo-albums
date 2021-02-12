@@ -10,7 +10,6 @@ export default function useLoadMore(
 ) {
   const LIMIT = 3;
 
-  // todo @ANKU @LOW - динамически получать пользователя
   // todo @ANKU @LOW - сгенерировать из схемы TS интерфейсы и прописать их тут
   const gqlResponse = useQuery(
     query,

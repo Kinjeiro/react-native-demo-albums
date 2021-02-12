@@ -29,12 +29,18 @@ function FeedTabsScreen(props: FeedTabsScreenProps) {
       swipeEnabled={ false }
       style={{
         // todo @ANKU @LOW - бордер над табами
-        borderWidth: 0,
+        //borderWidth: 0,
+        //backgroundColor: 'aqua',
       }}
       tabBarOptions={{
         // todo @ANKU @LOW - заглавные буквы, вместо прописных на табах
         activeTintColor: colors.text,
         inactiveTintColor: colors.disabled,
+        style: {
+          //backgroundColor: 'red',
+          //borderWidth: 0,
+          // todo @ANKU @LOW - цвет полоски под активной табой primary а нужно черный
+        },
       }}
     >
       <FeedTabs.Screen

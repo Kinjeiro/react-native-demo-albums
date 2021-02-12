@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { ActivityIndicator, View } from 'react-native';
+import { ActivityIndicator, ListRenderItemInfo, View } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { gql, useQuery } from '@apollo/client';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { Button, Text } from 'react-native-paper';
 
 // todo @ANKU @LOW - ошибка при использовани лоадера
@@ -106,6 +105,7 @@ export default function AlbumsScreen({ navigation }: AlbumsProps) {
   } = useLoadMore(
     QUERY_ALBUMS_BY_USER,
     {
+      // todo @ANKU @LOW - динамически получать пользователя
       userId: '1',
     },
     (data) => data && data.user.albums,
@@ -141,6 +141,15 @@ export default function AlbumsScreen({ navigation }: AlbumsProps) {
     console.warn('ANKU , delete', rowData);
   };
 
+  const handleRefresh = () => {
+    // todo @ANKU @CRIT @MAIN - разобраться
+    debugger;
+    gqlResponse.refetch();
+  };
+
+  // ======================================================
+  // RENDERS
+  // ======================================================
   const renderHeader = () => {
     return (
       <View
@@ -170,10 +179,17 @@ export default function AlbumsScreen({ navigation }: AlbumsProps) {
       : null;
   };
 
+  const renderItem = (rowData: ListRenderItemInfo<any>) => {
+    return (
+      <AlbumListItem rowData={ rowData } />
+    );
+  };
+
   return (
     <View
       style={{
         flex: 1,
+        backgroundColor: 'red',
       }}
     >
       {
@@ -182,7 +198,7 @@ export default function AlbumsScreen({ navigation }: AlbumsProps) {
         ) : (
           <ListWithSwypes
             data={ records }
-            renderItem={ AlbumListItem }
+            renderItem={ renderItem }
 
             onClickRow={ handleClickRow }
             onDeleteRow={ handleDeleteRow }
@@ -199,11 +215,7 @@ export default function AlbumsScreen({ navigation }: AlbumsProps) {
             // How Close To The End Of List Until Next Data Request Is Made
             onEndReachedThreshold={ 0.5 }
             refreshing={ gqlResponse.networkStatus === 4 }
-            onRefresh={ () => {
-              // todo @ANKU @CRIT @MAIN - разобраться
-              debugger;
-              gqlResponse.refetch();
-            } }
+            onRefresh={ handleRefresh }
             /// / Refreshing (Set To True When End Reached)
             // refreshing={ refreshing }
           />
