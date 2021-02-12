@@ -38,7 +38,7 @@ export default function useLoadMore(
     totalCount,
     gqlResponse,
     onLoadMore: () => {
-      if (!loading && records.length < totalCount) {
+      if (!loading && records.length < totalCount && gqlResponse && gqlResponse.fetchMore) {
         // todo @ANKU @CRIT @MAIN - идет несколько запросов
         /*
           // todo @ANKU @LOW - переделать на новые полиси - https://www.apollographql.com/docs/react/pagination/core-api/ -
