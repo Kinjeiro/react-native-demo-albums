@@ -16,7 +16,7 @@ const AlbumListItem:ListWithSwypesCallback<any> = (itemInfo) => {
     index,
   } = itemInfo;
 
-  // todo @ANKU @LOW - если не будет фотки
+  // todo @ANKU @LOW - если не будет фотки - сделать стаб
   const { thumbnailUrl } = photos.data[0] || {};
 
   return (

@@ -161,7 +161,7 @@ export default function AlbumsScreen({ navigation }: AlbumsProps) {
             // On End Reached (Takes a function)
             onEndReached={ onLoadMore }
             // How Close To The End Of List Until Next Data Request Is Made
-            onEndReachedThreshold={ 0.3 }
+            onEndReachedThreshold={ 0.5 }
             refreshing={ gqlResponse.networkStatus === 4 }
             onRefresh={ () => {
               // todo @ANKU @CRIT @MAIN - разобраться

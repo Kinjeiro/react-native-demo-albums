@@ -1,6 +1,7 @@
 import { useQuery } from '@apollo/client';
 import { DocumentNode } from 'graphql';
 
+// todo @ANKU @LOW - добавить TS тип
 export default function useLoadMore(
   query: DocumentNode,
   variables: Object,
@@ -39,12 +40,19 @@ export default function useLoadMore(
     onLoadMore: () => {
       if (!loading && records.length < totalCount) {
         // todo @ANKU @CRIT @MAIN - идет несколько запросов
+        /*
+          // todo @ANKU @LOW - переделать на новые полиси - https://www.apollographql.com/docs/react/pagination/core-api/ -
+          Please convert updateQuery functions to field policies with appropriate
+          read and merge functions, or use/adapt a helper function (such as
+          concatPagination, offsetLimitPagination, or relayStylePagination) from
+          @apollo/client/utilities.
+        */
         gqlResponse.fetchMore({
           variables: {
             page: Math.ceil(records.length / LIMIT) + 1,
           },
           updateQuery: (previousResult, { fetchMoreResult }) => {
-            const newRecords = dataExtractorFn(fetchMoreResult).data;
+            const newRecords = fetchMoreResult && dataExtractorFn(fetchMoreResult).data;
 
             // Don't do anything if there weren't any new items
             if (!fetchMoreResult || newRecords.length === 0) {
