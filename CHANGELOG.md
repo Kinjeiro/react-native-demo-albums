@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.6](https://github.com/mokkapps/changelog-generator-demo/compare/v0.0.5...v0.0.6) (2021-02-12)
+
+
+### Features
+
+* **feeds:** Feed page styling ([e7091fe](https://github.com/mokkapps/changelog-generator-demo/commits/e7091fe014c59d42bae5366da28215b410e7b62c))
+* **theme:** add react-native-paper support with custom theme, fonts and colors ([c3daaed](https://github.com/mokkapps/changelog-generator-demo/commits/c3daaed120d7a1061721f569f9896c9507e02611))
+
+
+### Bug Fixes
+
+* **albums:** change onEndReachedThreshold to 0.5 (load data early) ([557cab8](https://github.com/mokkapps/changelog-generator-demo/commits/557cab81f62b2ccf93aa607dacb9ede98519e3ea))
+* **loadMore:** fetchMore undefined problem ([48093b1](https://github.com/mokkapps/changelog-generator-demo/commits/48093b1c3776deee06a40c884d40a3bf4d91626a))
+
+
+### Chore
+
+* **eslint:** disable eslint prop-types for ts files ([4a479a0](https://github.com/mokkapps/changelog-generator-demo/commits/4a479a0b2474c1282a7d8ba894ecbcf598ad7b18))
+* **font:** add Ubuntu fonts and react-native.config.js for assets ([7ab4f23](https://github.com/mokkapps/changelog-generator-demo/commits/7ab4f23bd6a57f461bba6e3adfbb5bea49e4816e))
+
 ### [0.0.5](https://github.com/mokkapps/changelog-generator-demo/compare/v0.0.4...v0.0.5) (2021-02-11)
 
 
