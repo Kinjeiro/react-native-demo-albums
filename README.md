@@ -62,9 +62,19 @@ Feed page разделен на два таба.
 - react-navigation
 - Apollo Client -  для graphQL и хранения \ кеширования данных (вместо redux)
 - AsyncStorage - для персистинга данных приложения
+- react-native-paper - компоненты, стилизация и темы
+- react-hook-form - управления и валидация форм
 
 ## Запуск
+1. Web
 `npm run web`
+http://localhost:19002/ - веб консоль и управление
+http://localhost:19006/ - адрес web версии
+1. Emulation
+Запустите Android Studio. Запустите эмулятор и дождитесь загрузки.
+В терминале к запущенному expo нажмите: "a" (for Android)
+1. Mobile
+Use QR-code from http://localhost:19002/
 
 ## План работы
 1. ~~Изучить задание, наметить архитектуру~~
