@@ -71,6 +71,7 @@
     "react-native-snap-carousel": "~3.9.1",
     "react-native-swipe-list-view": "~3.2.6",
     "react-native-tab-view": "~2.15.2",
+    "react-native-svg": "12.1.0",
     "react-native-unimodules": "~0.12.0",
     "react-native-vector-icons": "~8.0.0",
     "react-native-web": "~0.13.12"
@@ -95,6 +96,7 @@
     "jest-expo": "~40.0.0",
     "lint-staged": "~10.5.4",
     "pinst": "~2.1.4",
+    "react-native-svg-transformer": "~0.14.3",
     "standard-version": "~9.1.0",
     "typescript": "~4.0.0"
   },
