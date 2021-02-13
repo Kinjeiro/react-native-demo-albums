@@ -3,13 +3,14 @@ import { createStackNavigator, StackNavigationProp } from '@react-navigation/sta
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { RouteProp } from '@react-navigation/native';
 import { useTheme } from 'react-native-paper';
+import { WhitePortal } from 'react-native-portal';
 
 // ======================================================
 // MODULE
 // ======================================================
 import AlbumsScreen from './Albums/List/AlbumsScreen';
 import AlbumViewScreen, { AlbumViewScreenProps } from './Albums/View/AlbumViewScreen';
-import AlbumCreateScreen from './Albums/Create/AlbumCreateScreen';
+import AlbumCreateScreen, { PORTAL_CREATE_ALBUM_BUTTON } from './Albums/Create/AlbumCreateScreen';
 import Posts from './Posts/Posts';
 import FeedScreens, { FeedScreensParamList } from './feed-navigation';
 import { getSlackNavigatorScreenOptions } from '../../styles/common-styles';
@@ -73,7 +74,15 @@ export default function FeedPage() {
         component={ AlbumViewScreen }
         options={ ({ route }: AlbumViewScreenProps) => ({ title: route.params.albumTitle }) }
       />
-      <FeedNavigator.Screen name={ FeedScreens.ALBUM_CREATE } component={ AlbumCreateScreen } />
+      <FeedNavigator.Screen
+        name={ FeedScreens.ALBUM_CREATE }
+        component={ AlbumCreateScreen }
+        options={{
+          headerRight: (props) => (
+            <WhitePortal name={ PORTAL_CREATE_ALBUM_BUTTON } />
+          ),
+        }}
+      />
     </FeedNavigator.Navigator>
   );
 }

@@ -14,9 +14,9 @@ export default class GlobalFixing {
 
       */
       if (!IS_WEB) {
-        // todo @ANKU @LOW - к сожалению текст используется в кнопке и проще было создать отдельный компонет SmallText, чем переделывать кнопку
+        // todo @ANKU @LOW - к сожалению Text используется в Button и проще было создать отдельный компонент SmallText, чем переделывать Button
         //fixReactNativeTextStyle({
-        //  // todo @ANKU @LOW - fix font load
+        //  // todo @ANKU @LOW - fix font load - не находится в Android и Web
         //  //fontFamily: 'Ubuntu Regular',
         //  fontSize: FONT_SIZES.text,
         //});

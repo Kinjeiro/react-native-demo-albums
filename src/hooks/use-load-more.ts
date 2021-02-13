@@ -36,7 +36,7 @@ export default function useLoadMore(
     records,
     totalCount,
     gqlResponse,
-    onLoadMore: () => {
+    onLoadMore: async () => {
       if (!loading && records.length < totalCount && gqlResponse && gqlResponse.fetchMore) {
         // todo @ANKU @CRIT @MAIN - идет несколько запросов
         /*
@@ -46,7 +46,7 @@ export default function useLoadMore(
           concatPagination, offsetLimitPagination, or relayStylePagination) from
           @apollo/client/utilities.
         */
-        gqlResponse.fetchMore({
+        await gqlResponse.fetchMore({
           variables: {
             page: Math.ceil(records.length / LIMIT) + 1,
           },
@@ -71,6 +71,7 @@ export default function useLoadMore(
             //};
             return mergeFn(previousResult, fetchMoreResult);
           },
+
         });
       }
     },

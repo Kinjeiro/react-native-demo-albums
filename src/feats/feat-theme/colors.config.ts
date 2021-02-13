@@ -57,6 +57,10 @@ const colors : Partial<ReactNativePaper.ThemeColors> = {
   placeholder: '#AFAFAF',
   //backdrop: 'blue',
 
+
+  // ======================================================
+  // CUSTOM
+  // ======================================================
   //textInactive: '#AFAFAF',
   errorBackground: '#F54747',
   error: '#fff',
