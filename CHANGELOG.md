@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.10](https://github.com/mokkapps/changelog-generator-demo/compare/v0.0.9...v0.0.10) (2021-02-13)
+
+
+### Features
+
+* **module_feed:** add form for New Album ([8daf69d](https://github.com/mokkapps/changelog-generator-demo/commits/8daf69d3897089d004a20d68e0900944743603d4))
+* **module_feed:** styling AlbumCreateScreen ([5019511](https://github.com/mokkapps/changelog-generator-demo/commits/5019511a2dea6fc35ad3c9eb6fefaa44550ccec4))
+* **portals:** react-native-portal@1.3.0 \\ add support for BlackPortal \ WhitePortal ([e9f8119](https://github.com/mokkapps/changelog-generator-demo/commits/e9f81199371f434d46ec699201cf215ae091b892))
+* **theme:** add "fontSizes" and "spacing" to global Theme ([053f5df](https://github.com/mokkapps/changelog-generator-demo/commits/053f5dfc688d14c5c8050636e5b04a9233534625))
+
+
+### Chore
+
+* **depen:** react-hook-form@5.7.2 (не 6!) react-native-paper-form-builder@1.0.9 - для форм ([3ce9475](https://github.com/mokkapps/changelog-generator-demo/commits/3ce9475ca9af6aadf4830737fb5a29be449959a2))
+
 ### [0.0.9](https://github.com/mokkapps/changelog-generator-demo/compare/v0.0.8...v0.0.9) (2021-02-12)
 
 ### [0.0.8](https://github.com/mokkapps/changelog-generator-demo/compare/v0.0.7...v0.0.8) (2021-02-12)
