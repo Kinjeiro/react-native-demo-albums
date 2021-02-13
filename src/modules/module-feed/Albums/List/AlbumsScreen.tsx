@@ -1,8 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import { ActivityIndicator, ListRenderItemInfo, View } from 'react-native';
+import React, { useState } from 'react';
+import {
+  ActivityIndicator,
+  ListRenderItemInfo,
+  View,
+} from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { gql, useQuery } from '@apollo/client';
-import { Button, Text } from 'react-native-paper';
+import { gql } from '@apollo/client';
 
 // todo @ANKU @LOW - ошибка при использовани лоадера
 // Unable to resolve module path from react-native-demo-albums\node_modules\graphql.macro\lib\utils\expandImports.js: path could not be found within the project.
@@ -20,6 +23,8 @@ import AppButton from '../../../../components-overriden/AppButton/AppButton';
 // ======================================================
 import FeedScreens from '../../feed-navigation';
 import AlbumListItem from './AlbumListItem';
+import DeleteDialog from './DeleteDialog';
+import BottomModal from '../../../../components/BottomModal/BottomModal';
 
 interface AlbumsProps {
   navigation: StackNavigationProp<any>
@@ -96,6 +101,8 @@ const [page, setPage] = React.useState(1);
 
 
 export default function AlbumsScreen({ navigation }: AlbumsProps) {
+  const [isDeleteOpen, setDeleteOpen] = useState(false);
+
   const {
     loading,
     records,
@@ -137,8 +144,12 @@ export default function AlbumsScreen({ navigation }: AlbumsProps) {
       albumTitle: title,
     });
   const handleDeleteRow: ListWithSwypesCallback<any> = async (rowData) => {
+    setDeleteOpen(true);
+  };
+  const handleConfirmedDelete = async () => {
     // todo @ANKU @CRIT @MAIN -
-    console.warn('ANKU , delete', rowData);
+    alert('Confirmed Delete');
+    setDeleteOpen(false);
   };
 
   const handleRefresh = () => {
@@ -183,11 +194,13 @@ export default function AlbumsScreen({ navigation }: AlbumsProps) {
     );
   };
 
+  // ======================================================
+  // MAIN RENDER
+  // ======================================================
   return (
     <View
       style={{
         flex: 1,
-        backgroundColor: 'red',
       }}
     >
       {
@@ -219,6 +232,22 @@ export default function AlbumsScreen({ navigation }: AlbumsProps) {
           />
         )
       }
+
+      {/*<BottomDialog
+        ref={ bottomSheetRef }
+        renderContent={ renderContent }
+      />*/}
+
+      {
+        isDeleteOpen && (
+          <BottomModal
+            onClose={ () => setDeleteOpen(false) }
+          >
+            <DeleteDialog onDelete={ handleConfirmedDelete } />
+          </BottomModal>
+        )
+      }
+
     </View>
   );
 }
