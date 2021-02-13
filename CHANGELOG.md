@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.11](https://github.com/mokkapps/changelog-generator-demo/compare/v0.0.10...v0.0.11) (2021-02-13)
+
+
+### Features
+
+* **comp:** BottomModal - for app modal dialogs ([5291e60](https://github.com/mokkapps/changelog-generator-demo/commits/5291e60d2140e6521d09740ed379ab29335c7329))
+* **component:** AppButton for main buttons in our app ([84a6553](https://github.com/mokkapps/changelog-generator-demo/commits/84a6553277729697b1062cb5d01e26ebc14fb7bd))
+* **module_feed:** styling for deleting album dialog ([897127b](https://github.com/mokkapps/changelog-generator-demo/commits/897127b704a1862a5301d88b51caef6e66a670ae))
+* **svg:** add svg import support ([6a89735](https://github.com/mokkapps/changelog-generator-demo/commits/6a89735394f5447fd7fff135c83abb2778c4d8cc))
+
+
+### Bug Fixes
+
+* **module_feed:** for albums load only first photo ([0653ea2](https://github.com/mokkapps/changelog-generator-demo/commits/0653ea2685a62f0f5605e402749350c465900bc4))
+* **svg:** import custom icons throw the React Component ([3111a34](https://github.com/mokkapps/changelog-generator-demo/commits/3111a34d52bd072d0ef5aa42d54398addbf2bceb))
+
 ### [0.0.10](https://github.com/mokkapps/changelog-generator-demo/compare/v0.0.9...v0.0.10) (2021-02-13)
 
 
