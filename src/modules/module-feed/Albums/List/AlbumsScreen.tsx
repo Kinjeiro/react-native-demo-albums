@@ -38,7 +38,7 @@ const QUERY_ALBUMS_BY_USER = gql`
                     user {
                         name
                     }
-                    photos {
+                    photos(options: { paginate: { page: 1, limit: 1 } }) {
                         data {
                             id
                             title
