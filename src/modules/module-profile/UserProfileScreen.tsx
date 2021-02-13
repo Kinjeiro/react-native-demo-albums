@@ -3,7 +3,7 @@ import { Text, View } from 'react-native';
 import { Avatar, Title } from 'react-native-paper';
 
 import { widthPercentToPx } from '../../feats/feat-utils/native-utils';
-import FONT_SIZES from '../../feats/feat-theme/font-size.config';
+import FONT_SIZES from '../../feats/feat-theme/configs/font-sizes.config';
 
 // ======================================================
 // MODULE

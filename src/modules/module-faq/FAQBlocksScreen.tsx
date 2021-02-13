@@ -8,7 +8,7 @@ import React from 'react';
 // ======================================================
 import FAQScreens, { FAQNavigatorParamList } from './faq-navigation';
 import FAQ_DATA from './faq-data';
-import FONT_SIZES from '../../feats/feat-theme/font-size.config';
+import FONT_SIZES from '../../feats/feat-theme/configs/font-sizes.config';
 
 interface FAQBlocksProps {
   // route: RouteProp<FAQNavigatorParamList, 'FAQBlocks'>;

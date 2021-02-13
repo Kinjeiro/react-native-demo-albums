@@ -1,5 +1,3 @@
-import COLORS from "./colors";
-
 declare global {
   namespace ReactNativePaper {
     interface ThemeColors {

@@ -3,7 +3,7 @@ import { useTheme } from 'react-native-paper';
 import { Text, View } from 'react-native';
 
 import { widthPercentToPx } from '../../feats/feat-utils/native-utils';
-import FONT_SIZES from '../../feats/feat-theme/font-size.config';
+import FONT_SIZES from '../../feats/feat-theme/configs/font-sizes.config';
 
 export default function UserProfileParams({ user }) {
   const { colors } = useTheme();

@@ -1,14 +1,22 @@
 import * as React from 'react';
 import { configureFonts, DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
 
-import fontConfig from './font.config';
-import colors from './colors.config';
+import fontConfig from './configs/font.config';
 import GlobalFixing from '../../components-overriden/fix-all';
+
+// ======================================================
+// MODULE
+// ======================================================
+import colors from './configs/colors.config';
+import themeFontSizes, { ThemeFontSizes } from './configs/font-sizes.config';
+import themeSpacing, { ThemeSpacing } from './configs/spacing.config';
 
 declare global {
   namespace ReactNativePaper {
     interface Theme {
       myOwnProperty: boolean;
+      fontSizes: ThemeFontSizes,
+      spacing: ThemeSpacing,
     }
 
     //interface ThemeAnimation {
@@ -25,8 +33,11 @@ const theme : ReactNativePaper.Theme = {
   //@ts-ignore
   colors,
 
-  // Specify custom property
-  myOwnProperty: true,
+  // ======================================================
+  // CUSTOM PROPERTIES
+  // ======================================================
+  fontSizes: themeFontSizes,
+  spacing: themeSpacing,
 };
 
 /*

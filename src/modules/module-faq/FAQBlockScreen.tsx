@@ -9,7 +9,7 @@ import { StackNavigationProp } from '@react-navigation/stack';
 // ======================================================
 import FAQScreens, { FAQNavigatorParamList } from './faq-navigation';
 import { getBlockById } from './faq-data';
-import FONT_SIZES from '../../feats/feat-theme/font-size.config';
+import FONT_SIZES from '../../feats/feat-theme/configs/font-sizes.config';
 
 
 export interface FAQBlockScreenProps {
