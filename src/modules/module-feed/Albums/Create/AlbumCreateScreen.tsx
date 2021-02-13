@@ -1,59 +1,13 @@
-import { Linking, Text, View } from 'react-native';
+import { View } from 'react-native';
 import React from 'react';
-import { Button, TextInput, useTheme } from 'react-native-paper';
+import { Button, useTheme } from 'react-native-paper';
 import { BlackPortal } from 'react-native-portal';
 import FormBuilder from 'react-native-paper-form-builder';
 import { useForm } from 'react-hook-form';
-import { widthPercentToPx } from '../../../../feats/feat-utils/native-utils';
-import FONT_SIZES from '../../../../feats/feat-theme/configs/font-sizes.config';
+
+import TextInputCustom from './TextInputCustom';
 
 export const PORTAL_CREATE_ALBUM_BUTTON = 'createAlbum';
-
-
-function CustomTextInput(props) {
-  const theme = useTheme();
-  const {
-    label,
-    style,
-    ...restProps
-  } = props;
-
-  // todo @ANKU @LOW - width TextInput в WEB 210px, хотя на андройде все нормально растягивается
-  return (
-    <View
-      style={{
-        height: 80,
-        justifyContent: 'center',
-        alignItems: 'flex-start',
-        marginBottom: theme.spacing.formFieldMarginHorizontal,
-      }}
-    >
-      <Text
-        style={{
-          color: theme.colors.disabled,
-          fontSize: theme.fontSizes.userProfileName,
-        }}
-      >
-        { label }
-      </Text>
-      <View
-        style={{
-          flexDirection: 'row',
-        }}
-      >
-        <TextInput
-          { ...restProps }
-          style={{
-            flex: 1,
-            borderColor: theme.colors.disabled,
-            ...style,
-          }}
-        />
-      </View>
-    </View>
-  );
-}
-
 
 export default function AlbumCreateScreen() {
   const theme = useTheme();
@@ -88,7 +42,7 @@ export default function AlbumCreateScreen() {
           onPress={ onSubmit }
           disabled={ !form.formState.isValid }
           uppercase={ false }
-          labelStyle={{ fontSize: FONT_SIZES.title }}
+          labelStyle={{ fontSize: theme.fontSizes.title }}
         >
           Send
         </Button>
@@ -96,7 +50,7 @@ export default function AlbumCreateScreen() {
 
 
       <FormBuilder
-        CustomInput={ CustomTextInput }
+        CustomInput={ TextInputCustom }
         formConfigArray={ [
           {
             name: 'name',
