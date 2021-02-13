@@ -78,9 +78,8 @@ export default function FeedPage() {
         name={ FeedScreens.ALBUM_CREATE }
         component={ AlbumCreateScreen }
         options={{
-          headerRight: (props) => (
-            <WhitePortal name={ PORTAL_CREATE_ALBUM_BUTTON } />
-          ),
+          title: 'ADD ALBUM',
+          headerRight: () => <WhitePortal name={ PORTAL_CREATE_ALBUM_BUTTON } />,
         }}
       />
     </FeedNavigator.Navigator>
