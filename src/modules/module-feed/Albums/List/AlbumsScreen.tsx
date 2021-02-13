@@ -13,7 +13,7 @@ import { Button, Text } from 'react-native-paper';
 import Loading from '../../../../components/Loading/Loading';
 import ListWithSwypes, { ListWithSwypesCallback } from '../../../../components/ListWithSwypes/ListWithSwypes';
 import useLoadMore from '../../../../hooks/use-load-more';
-
+import AppButton from '../../../../components-overriden/AppButton/AppButton';
 
 // ======================================================
 // MODULE
@@ -161,13 +161,11 @@ export default function AlbumsScreen({ navigation }: AlbumsProps) {
           marginBottom: 16,
         }}
       >
-        <Button
-          mode="contained"
-          uppercase={ false }
+        <AppButton
           onPress={ handleCreateAlbum }
         >
           Add album
-        </Button>
+        </AppButton>
       </View>
     );
   };
