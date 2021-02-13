@@ -23,6 +23,7 @@ module.exports = (async () => {
   return {
     transformer: {
       assetPlugins: ['expo-asset/tools/hashAssetFiles'],
+      // todo @ANKU @LOW - @BUG_OUT - в эмуляторе импорт svg заработало, а в вебе падает ошибка: Unhandled Rejection (InvalidCharacterError): Failed to execute 'createElement' on 'Document': The tag name provided ('/static/media/modal-basket.17d312bb.svg') is not a valid name.
       babelTransformerPath: require.resolve('react-native-svg-transformer'),
       getTransformOptions: async () => ({
         transform: {

@@ -2,11 +2,8 @@ import React from 'react';
 import { useTheme } from 'react-native-paper';
 import { Text, View } from 'react-native';
 
-import { widthPercentToPx } from '../../feats/feat-utils/native-utils';
-import FONT_SIZES from '../../feats/feat-theme/configs/font-sizes.config';
-
 export default function UserProfileParams({ user }) {
-  const { colors } = useTheme();
+  const theme = useTheme();
 
   const fieldInfos = [
     { field: 'email', label: 'Email' },
@@ -27,23 +24,23 @@ export default function UserProfileParams({ user }) {
               justifyContent: 'space-between',
               alignItems: 'center',
 
-              marginTop: widthPercentToPx(3.8),
+              marginTop: theme.spacing.defaultMargin,
               //marginLeft: widthPercentToPx(3.8),
               //marginRight: widthPercentToPx(3.8),
-              marginBottom: widthPercentToPx(3.8),
+              marginBottom: theme.spacing.defaultMargin,
             }}
           >
             <Text
               style={{
-                fontSize: FONT_SIZES.title,
+                fontSize: theme.fontSizes.title,
               }}
             >
               { label }
             </Text>
             <Text
               style={{
-                fontSize: FONT_SIZES.title,
-                color: colors.disabled,
+                fontSize: theme.fontSizes.title,
+                color: theme.colors.disabled,
               }}
             >
               { user[field] }

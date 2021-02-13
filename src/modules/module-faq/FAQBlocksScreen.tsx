@@ -3,12 +3,14 @@ import { FlatList, TouchableOpacity } from 'react-native';
 import { Text, useTheme } from 'react-native-paper';
 import React from 'react';
 
+//import assetsSvgs from '../../../assets/svgs/arrow-right.svg';
+import FONT_SIZES from '../../feats/feat-theme/configs/font-sizes.config';
+
 // ======================================================
 // MODULE
 // ======================================================
 import FAQScreens, { FAQNavigatorParamList } from './faq-navigation';
 import FAQ_DATA from './faq-data';
-import FONT_SIZES from '../../feats/feat-theme/configs/font-sizes.config';
 
 interface FAQBlocksProps {
   // route: RouteProp<FAQNavigatorParamList, 'FAQBlocks'>;

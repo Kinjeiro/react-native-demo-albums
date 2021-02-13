@@ -29,6 +29,7 @@ module.exports = {
     'implicit-arrow-linebreak': 0,
     'arrow-body-style': 0, // we have comments in empty function body
     'spaced-comment': 0,
+    'no-confusing-arrow': 0,
 
     'react/no-unused-prop-types': 'warn',
 
