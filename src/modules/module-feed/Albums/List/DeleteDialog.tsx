@@ -1,11 +1,12 @@
 import { Text, Title, useTheme } from 'react-native-paper';
-import { View } from 'react-native';
+import { View, Image } from 'react-native';
 import React from 'react';
 
 import { heightPercentToPx } from '../../../../core-feats/feat-native-utils/native-utils';
 import AppButton from '../../../../components-overriden/AppButton/AppButton';
 //import ModalBasketIcon from '../../../../../assets/svgs/modal-basket.svg';
-import ModalBasketIcon from '../../../../icons/ModalBasketIcon';
+//import ModalBasketIcon from '../../../../icons/ModalBasketIcon';
+const ModalBasketImage = require('../../../../icons/ModalBasketIcon.png');
 
 interface DeleteDialogProps {
   onDelete: () => void | Promise<any>,
@@ -29,10 +30,20 @@ export default function DeleteDialog({ onDelete }: DeleteDialogProps) {
           alignItems: 'center',
         }}
       >
-        <ModalBasketIcon
-          width={ 108 }
-          height={ 128 }
-          fill={ theme.colors.errorBackground }
+        {
+          // todo @ANKU @LOW - к сожалению иконка в эмуляторе криво показывается (заливаются не нужные куски)
+            /*<ModalBasketIcon
+            width={ 108 }
+            height={ 128 }
+            fill={ theme.colors.errorBackground }
+          />*/
+        }
+        <Image
+          source={ ModalBasketImage }
+          style={{
+            width: 108,
+            height: 128,
+          }}
         />
         <Title
           style={{
