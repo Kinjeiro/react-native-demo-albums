@@ -1,33 +1,36 @@
 /* eslint-disable */
 import { Button, useTheme } from 'react-native-paper';
 import React from 'react';
-import Loading from '../../components/Loading/Loading';
 import { useState } from 'react';
+
 import { isPromise } from '../../core-feats/feat-common-utils/promise-utils';
 
-export default function AppButton(props: React.ComponentProps<typeof Button>) {
+type AppButtonProps = {
+  onPress?: () => (void | Promise<any>);
+} & React.ComponentProps<typeof Button>;
+export default function AppButton(props: AppButtonProps) {
   const {
     style,
     labelStyle,
     onPress,
-    children,
     disabled,
+    loading,
     ...restProps
   } = props;
   const theme = useTheme();
 
-  const [isLoading, setLoading] = useState(false);
+  const [isPromiseLoading, setPromiseLoading] = useState(false);
 
   const handlePress = () => {
-    if (!isLoading && props.onPress) {
+    if (!isPromiseLoading && props.onPress) {
       const result = props.onPress();
 
       if (isPromise(result)) {
-        setLoading(true);
+        setPromiseLoading(true);
         // todo @ANKU @LOW - переписать чтобы onPress в типах мог возвращать Promise
-        return result.then(() => {
+        return (result as Promise<any>).then(() => {
           try {
-            setLoading(false)
+            setPromiseLoading(false)
           } catch (e) {
             // todo @ANKU @CRIT @MAIN - warning не может обновить, если компонента уже нет - оформить красивее
             console.debug('AppButton', e);
@@ -46,8 +49,8 @@ export default function AppButton(props: React.ComponentProps<typeof Button>) {
 
       { ...restProps }
 
-      disabled={ isLoading || disabled }
-      onPress={ handlePress }
+      loading={ isPromiseLoading || loading }
+      disabled={ isPromiseLoading || disabled }
 
       style={{
         padding: theme.spacing.defaultMargin,
@@ -60,12 +63,8 @@ export default function AppButton(props: React.ComponentProps<typeof Button>) {
         // @ts-ignore
         ...labelStyle
       }}
-    >
-      {
-        isLoading
-          ? <Loading indicatorSize="small" />
-          : children
-      }
-    </Button>
+
+      onPress={ handlePress }
+    />
   );
 }

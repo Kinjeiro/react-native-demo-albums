@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import {
-  ActivityIndicator,
   ListRenderItemInfo,
   View,
 } from 'react-native';
@@ -133,9 +132,7 @@ export default function AlbumsScreen({ navigation }: AlbumsProps) {
           marginBottom: 16,
         }}
       >
-        <AppButton
-          onPress={ handleCreateAlbum }
-        >
+        <AppButton onPress={ handleCreateAlbum }>
           Add album
         </AppButton>
       </View>
@@ -144,7 +141,7 @@ export default function AlbumsScreen({ navigation }: AlbumsProps) {
   const renderFooter = () => {
     return loading
       ? (
-        <ActivityIndicator />
+        <Loading />
       )
       : null;
   };
