@@ -5,7 +5,7 @@ import {
   View,
 } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { gql } from '@apollo/client';
+import { useMutation } from '@apollo/client';
 
 // todo @ANKU @LOW - ошибка при использовани лоадера
 // Unable to resolve module path from react-native-demo-albums\node_modules\graphql.macro\lib\utils\expandImports.js: path could not be found within the project.
@@ -13,10 +13,13 @@ import { gql } from '@apollo/client';
 // // todo @ANKU @CRIT @MAIN - перевести на webpack loader - graphql-tag/loader
 // const queryAlbumsByUser = loader('./query-albums-by-user.graphql');
 
+import { setInDeepReducer } from '../../../../core-feats/feat-common-utils/common-utils';
+import useLoadMore from '../../../../hooks/use-load-more';
+
 import Loading from '../../../../components/Loading/Loading';
 import ListWithSwypes, { ListWithSwypesCallback } from '../../../../components/ListWithSwypes/ListWithSwypes';
-import useLoadMore from '../../../../hooks/use-load-more';
 import AppButton from '../../../../components-overriden/AppButton/AppButton';
+import BottomModal from '../../../../components/BottomModal/BottomModal';
 
 // ======================================================
 // MODULE
@@ -24,84 +27,25 @@ import AppButton from '../../../../components-overriden/AppButton/AppButton';
 import FeedScreens from '../../feed-navigation';
 import AlbumListItem from './AlbumListItem';
 import DeleteDialog from './DeleteDialog';
-import BottomModal from '../../../../components/BottomModal/BottomModal';
+import { MUTATION_ALBUM_REMOVE, QUERY_ALBUMS_BY_USER } from './graphql-albums';
+import { sleep } from '../../../../core-feats/feat-common-utils/promise-utils';
 
 interface AlbumsProps {
   navigation: StackNavigationProp<any>
 }
-const QUERY_ALBUMS_BY_USER = gql`
-    query selectAlbumsByUser($userId: ID!, $page: Int, $limit: Int) {
-        user(id: $userId) {
-            id
-            albums(options: { paginate: { page: $page, limit: $limit } }) {
-                meta {
-                    totalCount
-                }
-                data {
-                    id
-                    title
-                    user {
-                        name
-                    }
-                    photos(options: { paginate: { page: 1, limit: 1 } }) {
-                        data {
-                            id
-                            title
-                            url
-                            thumbnailUrl
-                        }
-                    }
-                }
-            }
-        }
-    }
-`;
-
-/*
-const [page, setPage] = React.useState(1);
-  const [results, setResults] = React.useState([]);
-
-  const LIMIT = 3;
-
-  // todo @ANKU @LOW - динамически получать пользователя
-  // todo @ANKU @LOW - сгенерировать из схемы TS интерфейсы и прописать их тут
-  const gqlResponse = useQuery(
-    QUERY_ALBUMS_BY_USER,
-    {
-      notifyOnNetworkStatusChange: true,
-      variables: {
-        userId: '1',
-        // todo @ANKU @CRIT @MAIN - идет двойной запрос, нужно вынести этот метод
-        page,
-        limit: LIMIT,
-      },
-    },
-  );
-  const {
-    loading,
-    data,
-  } = gqlResponse;
-
-  const totalCount = data && data.user.albums.meta.totalCount;
-  // const records = data && data.user.albums.data;
-
-  useEffect(() => {
-    const newResults = [...results, ...data.user.albums.data];
-    setResults(newResults);
-  }, [data]);
-
-  function onLoadMore() {
-    if (results.length < totalCount) {
-      setPage(Math.ceil(results.length / LIMIT) + 1);
-    }
-  }
-*/
-
-
-
-
 export default function AlbumsScreen({ navigation }: AlbumsProps) {
-  const [isDeleteOpen, setDeleteOpen] = useState(false);
+  const [deletingAlbumId, setDeletingAlbumId] = useState(null);
+
+  // todo @ANKU @LOW - сделать унификацию и вынести из этого компонента все (эххх хорошо бы тут подошел классовый компонент с HOC, чтобы разделить апи, логику и представление)
+  const queryAlbumByUserKey = {
+    query: QUERY_ALBUMS_BY_USER,
+    variables: {
+      // todo @ANKU @LOW - динамически получать пользователя
+      userId: '1',
+      page: 1,
+      limit: 15,
+    },
+  };
 
   const {
     loading,
@@ -110,24 +54,47 @@ export default function AlbumsScreen({ navigation }: AlbumsProps) {
     gqlResponse,
     onLoadMore,
   } = useLoadMore(
-    QUERY_ALBUMS_BY_USER,
-    {
-      // todo @ANKU @LOW - динамически получать пользователя
-      userId: '1',
-    },
+    queryAlbumByUserKey.query,
+    queryAlbumByUserKey.variables,
     (data) => data && data.user.albums,
-    (prev, next) => ({
-      ...prev,
-      // Concatenate the new feed results after the old ones
-      user: {
-        ...prev.user,
-        albums: {
-          ...prev.user.albums,
-          data: prev.user.albums.data.concat(next.user.albums.data),
-        },
-      },
-    }),
+    (prev, next) => setInDeepReducer<any>(
+      prev,
+      'user.albums.data',
+      prev.user.albums.data.concat(next.user.albums.data),
+    ),
   );
+
+  const [apiRemoveAlbum] = useMutation(
+    MUTATION_ALBUM_REMOVE,
+    {
+      // todo @ANKU @LOW - переместить к описанию запроса
+      optimisticResponse: {
+        __typename: 'Mutation',
+        deleteAlbum: true,
+      },
+      update: (proxy, { data }) => {
+        const prevData = proxy.readQuery(queryAlbumByUserKey);
+        if (prevData) {
+          proxy.writeQuery({
+            ...queryAlbumByUserKey,
+            data: setInDeepReducer<any>(
+              prevData,
+              'user.albums',
+              {
+                meta: {
+                  totalCount: prevData.user.albums.meta.totalCount - 1,
+                },
+                data: prevData.user.albums.data.filter(({ id }) => id !== deletingAlbumId)
+              }
+              ,
+            ),
+          });
+        }
+      },
+    },
+  );
+
+
 
   // todo @ANKU @LOW - динамически получать пользователя
   // todo @ANKU @LOW - сгенерировать из схемы TS интерфейсы и прописать их тут
@@ -144,13 +111,15 @@ export default function AlbumsScreen({ navigation }: AlbumsProps) {
       albumTitle: title,
     });
   const handleDeleteRow: ListWithSwypesCallback<any> = async (rowData) => {
-    setDeleteOpen(true);
+    setDeletingAlbumId(rowData.item.id);
   };
   const handleConfirmedDelete = async () => {
-    // todo @ANKU @CRIT @MAIN -
-    alert('Confirmed Delete');
-    setDeleteOpen(false);
+    await apiRemoveAlbum({ variables: { albumId: deletingAlbumId } });
+    // todo @ANKU @CRIT @MAIN @debugger - для наглядности лоадинга
+    await sleep(3000);
+    setDeletingAlbumId(null);
   };
+  const handleCloseDeleteAlbumDialog = () => setDeletingAlbumId(null);
 
   const handleRefresh = () => {
     // todo @ANKU @CRIT @MAIN - разобраться
@@ -239,10 +208,8 @@ export default function AlbumsScreen({ navigation }: AlbumsProps) {
       />*/}
 
       {
-        isDeleteOpen && (
-          <BottomModal
-            onClose={ () => setDeleteOpen(false) }
-          >
+        deletingAlbumId && (
+          <BottomModal onClose={ handleCloseDeleteAlbumDialog }>
             <DeleteDialog onDelete={ handleConfirmedDelete } />
           </BottomModal>
         )

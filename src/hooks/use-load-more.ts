@@ -1,14 +1,26 @@
 import { useQuery } from '@apollo/client';
 import { DocumentNode } from 'graphql';
 
+// todo @ANKU @CRIT @MAIN @debugger - чисто для наглядности, что работает поставил 3
+const DEFAULT_LIMIT = 15;
+
+export type VariablesType = {
+  page: number,
+  limit: number,
+  [key: string]: any,
+};
+
 // todo @ANKU @LOW - добавить TS тип
 export default function useLoadMore(
   query: DocumentNode,
-  variables: Object,
+  variables: VariablesType,
   dataExtractorFn: (data: Object) => Object,
   mergeFn: (prev: Object, next: Object) => Object,
 ) {
-  const LIMIT = 3;
+  const {
+    page = 1,
+    limit = DEFAULT_LIMIT,
+  } = variables;
 
   // todo @ANKU @LOW - сгенерировать из схемы TS интерфейсы и прописать их тут
   const gqlResponse = useQuery(
@@ -18,8 +30,8 @@ export default function useLoadMore(
       variables: {
         ...variables,
         // todo @ANKU @CRIT @MAIN - идет двойной запрос, нужно вынести этот метод
-        page: 1,
-        limit: LIMIT,
+        page,
+        limit,
       },
     },
   );
@@ -48,7 +60,7 @@ export default function useLoadMore(
         */
         await gqlResponse.fetchMore({
           variables: {
-            page: Math.ceil(records.length / LIMIT) + 1,
+            page: Math.ceil(records.length / DEFAULT_LIMIT) + 1,
           },
           updateQuery: (previousResult, { fetchMoreResult }) => {
             const newRecords = fetchMoreResult && dataExtractorFn(fetchMoreResult).data;
