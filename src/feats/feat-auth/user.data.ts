@@ -1,4 +1,8 @@
+// todo @ANKU @CRIT @MAIN @debugger -
 const USER = {
+  id: '1',
+
+  // custom
   login: '@ivan_ivanov',
   name: 'Ivan Ivanov',
 

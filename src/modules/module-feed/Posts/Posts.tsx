@@ -5,6 +5,7 @@ import {
 import { gql } from '@apollo/client';
 import { useTheme } from 'react-native-paper';
 
+import USER from '../../../feats/feat-auth/user.data';
 import Loading from '../../../components/Loading/Loading';
 import useLoadMore from '../../../hooks/use-load-more';
 
@@ -47,7 +48,7 @@ export default function Posts() {
   } = useLoadMore(
     QUERY_POSTS_BY_USER,
     {
-      userId: '1',
+      userId: USER.id,
     },
     (data) => data && data.user.posts,
     (prev, next) => ({

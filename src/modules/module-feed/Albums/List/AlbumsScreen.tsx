@@ -16,6 +16,8 @@ import { useMutation } from '@apollo/client';
 import { setInDeepReducer } from '../../../../core-feats/feat-common-utils/common-utils';
 import useLoadMore from '../../../../hooks/use-load-more';
 
+import { sleep } from '../../../../core-feats/feat-common-utils/promise-utils';
+import USER from '../../../../feats/feat-auth/user.data';
 import Loading from '../../../../components/Loading/Loading';
 import ListWithSwypes, { ListWithSwypesCallback } from '../../../../components/ListWithSwypes/ListWithSwypes';
 import AppButton from '../../../../components-overriden/AppButton/AppButton';
@@ -27,8 +29,7 @@ import BottomModal from '../../../../components/BottomModal/BottomModal';
 import FeedScreens from '../../feed-navigation';
 import AlbumListItem from './AlbumListItem';
 import DeleteDialog from './DeleteDialog';
-import { MUTATION_ALBUM_REMOVE, QUERY_ALBUMS_BY_USER } from './graphql-albums';
-import { sleep } from '../../../../core-feats/feat-common-utils/promise-utils';
+import { getQueryAlbumsByUserKey, MUTATION_ALBUM_REMOVE } from './graphql-albums';
 
 interface AlbumsProps {
   navigation: StackNavigationProp<any>
@@ -36,16 +37,7 @@ interface AlbumsProps {
 export default function AlbumsScreen({ navigation }: AlbumsProps) {
   const [deletingAlbumId, setDeletingAlbumId] = useState(null);
 
-  // todo @ANKU @LOW - сделать унификацию и вынести из этого компонента все (эххх хорошо бы тут подошел классовый компонент с HOC, чтобы разделить апи, логику и представление)
-  const queryAlbumByUserKey = {
-    query: QUERY_ALBUMS_BY_USER,
-    variables: {
-      // todo @ANKU @LOW - динамически получать пользователя
-      userId: '1',
-      page: 1,
-      limit: 15,
-    },
-  };
+  const queryAlbumByUserKey = getQueryAlbumsByUserKey(USER.id);
 
   const {
     loading,

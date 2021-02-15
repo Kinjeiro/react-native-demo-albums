@@ -27,15 +27,16 @@ export const QUERY_ALBUMS_BY_USER = gql`
         }
     }
 `;
-
-export const MUTATION_ALBUM_CREATE = gql`  
-    mutation creteAlbum($albumData: CreateAlbumInput!) {
-        createAlbum(input: $albumData) {
-            id
-            title
-        }
-    }
-`;
+export function getQueryAlbumsByUserKey(userId: string) {
+  return {
+    query: QUERY_ALBUMS_BY_USER,
+    variables: {
+      userId,
+      page: 1,
+      limit: 15,
+    },
+  };
+}
 
 export const MUTATION_ALBUM_REMOVE = gql`  
     mutation removeAlbum($albumId: ID!) {

@@ -2,6 +2,7 @@ import React from 'react';
 import { Text, View } from 'react-native';
 import { Avatar, Title } from 'react-native-paper';
 
+import USER from '../../feats/feat-auth/user.data';
 import { widthPercentToPx } from '../../core-feats/feat-native-utils/native-utils';
 import FONT_SIZES from '../../feats/feat-theme/configs/font-sizes.config';
 
@@ -9,7 +10,6 @@ import FONT_SIZES from '../../feats/feat-theme/configs/font-sizes.config';
 // MODULE
 // ======================================================
 import UserProfileParams from './UserProfileParams';
-import USER from './user.data';
 
 export default function UserProfileScreen() {
   // todo @ANKU @CRIT @MAIN - получать пользователя
