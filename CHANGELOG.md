@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.2](https://github.com/mokkapps/changelog-generator-demo/compare/v0.1.1...v0.1.2) (2021-02-15)
+
+
+### Bug Fixes
+
+* **eslint:** fixing for ts and eslint problem ([ea50b8d](https://github.com/mokkapps/changelog-generator-demo/commits/ea50b8d170df0bf923bf07d76db669e65f849e51))
+* **ts:** add graphql ts types for all queries ([73796b2](https://github.com/mokkapps/changelog-generator-demo/commits/73796b26a804dfbc7b52e457c111e4e4620ea9e8))
+
 ### [0.1.1](https://github.com/mokkapps/changelog-generator-demo/compare/v0.1.0...v0.1.1) (2021-02-15)
 
 
