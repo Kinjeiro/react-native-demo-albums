@@ -114,7 +114,7 @@ export default function AlbumsScreen({ navigation }: AlbumsProps) {
   const handleCloseDeleteAlbumDialog = () => setDeletingAlbumId(null);
 
   const handleRefresh = () => {
-    // todo @ANKU @CRIT @MAIN - разобраться
+    // todo @ANKU @CRIT @MAIN - правильно заиспользовать
     debugger;
     gqlResponse.refetch();
   };

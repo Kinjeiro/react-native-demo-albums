@@ -2,7 +2,7 @@ import { useQuery } from '@apollo/client';
 import { DocumentNode } from 'graphql';
 
 // todo @ANKU @CRIT @MAIN @debugger - чисто для наглядности, что работает поставил 3
-const DEFAULT_LIMIT = 15;
+export const DEFAULT_LIMIT = 3;
 
 export type VariablesType = {
   page: number,
@@ -26,6 +26,8 @@ export default function useLoadMore(
   const gqlResponse = useQuery(
     query,
     {
+      // todo @ANKU @CRIT @MAIN @debugger - так как у нас сервер не изменяется после добавления, а страница полностью перезагружается ставим приоритет кеша
+      fetchPolicy: 'cache-first',
       notifyOnNetworkStatusChange: true,
       variables: {
         ...variables,

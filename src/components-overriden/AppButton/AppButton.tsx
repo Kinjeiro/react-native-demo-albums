@@ -21,7 +21,7 @@ export default function AppButton(props: React.ComponentProps<typeof Button>) {
   const handlePress = () => {
     if (!isLoading && props.onPress) {
       const result = props.onPress();
-      debugger;
+
       if (isPromise(result)) {
         setLoading(true);
         // todo @ANKU @LOW - переписать чтобы onPress в типах мог возвращать Promise

@@ -1,4 +1,5 @@
 import { gql } from '@apollo/client';
+import { DEFAULT_LIMIT } from '../../../../hooks/use-load-more';
 
 export const QUERY_ALBUMS_BY_USER = gql`
     query selectAlbumsByUser($userId: ID!, $page: Int, $limit: Int) {
@@ -33,7 +34,7 @@ export function getQueryAlbumsByUserKey(userId: string) {
     variables: {
       userId,
       page: 1,
-      limit: 15,
+      limit: DEFAULT_LIMIT,
     },
   };
 }
