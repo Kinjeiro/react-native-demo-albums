@@ -27,6 +27,11 @@ export default function useLoadMore(
     query,
     {
       // todo @ANKU @CRIT @MAIN @debugger - так как у нас сервер не изменяется после добавления, а страница полностью перезагружается ставим приоритет кеша
+      /*
+        standby - Uses the same logic as cache-first, except this query does not automatically update when underlying field values change. You can still manually update this query with refetch and updateQueries.
+      */
+      // todo @ANKU @LOW - при standby постоянный лоадинг внизу
+      //fetchPolicy: 'standby',
       fetchPolicy: 'cache-first',
       notifyOnNetworkStatusChange: true,
       variables: {

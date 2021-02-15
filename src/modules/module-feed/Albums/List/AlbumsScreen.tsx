@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import {
   ListRenderItemInfo,
   View,
 } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useMutation } from '@apollo/client';
+import { useTheme } from 'react-native-paper';
 
 // todo @ANKU @LOW - ошибка при использовани лоадера
 // Unable to resolve module path from react-native-demo-albums\node_modules\graphql.macro\lib\utils\expandImports.js: path could not be found within the project.
@@ -21,6 +22,8 @@ import Loading from '../../../../components/Loading/Loading';
 import ListWithSwypes, { ListWithSwypesCallback } from '../../../../components/ListWithSwypes/ListWithSwypes';
 import AppButton from '../../../../components-overriden/AppButton/AppButton';
 import BottomModal from '../../../../components/BottomModal/BottomModal';
+import GetStyle from '../../../../core-feats/feat-native-utils/get-style-type';
+
 
 // ======================================================
 // MODULE
@@ -93,74 +96,62 @@ export default function AlbumsScreen({ navigation }: AlbumsProps) {
   // const goToView = () => navigation.navigate(FeedScreens.ALBUM_VIEW);
   // const goToCreate = () => navigation.navigate(FeedScreens.ALBUM_CREATE);
 
-  const handleCreateAlbum = () =>
-    navigation.navigate(FeedScreens.ALBUM_CREATE);
+  const handleCreateAlbum = useCallback(() =>
+    navigation.navigate(FeedScreens.ALBUM_CREATE), []);
 
-  const handleClickRow: ListWithSwypesCallback<any> = async ({ item: { id, title } }) =>
+  const handleClickRow: ListWithSwypesCallback<any> = useCallback(async ({ item: { id, title } }) =>
     navigation.navigate(FeedScreens.ALBUM_VIEW, {
       albumId: id,
       albumTitle: title,
-    });
-  const handleDeleteRow: ListWithSwypesCallback<any> = async (rowData) => {
+    }), []);
+  const handleDeleteRow: ListWithSwypesCallback<any> = useCallback(async (rowData) => {
     setDeletingAlbumId(rowData.item.id);
-  };
-  const handleConfirmedDelete = async () => {
+  }, []);
+  const handleConfirmedDelete = useCallback(async () => {
     await apiRemoveAlbum({ variables: { albumId: deletingAlbumId } });
     // todo @ANKU @CRIT @MAIN @debugger - для наглядности лоадинга
     await sleep(3000);
     setDeletingAlbumId(null);
-  };
-  const handleCloseDeleteAlbumDialog = () => setDeletingAlbumId(null);
+  }, [deletingAlbumId, apiRemoveAlbum]);
+  const handleCloseDeleteAlbumDialog = useCallback(() => setDeletingAlbumId(null), []);
 
-  const handleRefresh = () => {
-    // todo @ANKU @CRIT @MAIN - правильно заиспользовать
-    debugger;
-    gqlResponse.refetch();
-  };
+  const handleRefresh = useCallback(async () => gqlResponse.refetch(), []);
 
   // ======================================================
   // RENDERS
   // ======================================================
-  const renderHeader = () => {
+  const styles = getStyles(useTheme());
+
+  const renderHeader = useCallback(() => {
     return (
-      <View
-        style={{
-          justifyContent: 'center',
-          paddingLeft: 33,
-          paddingRight: 33,
-          marginTop: 16,
-          marginBottom: 16,
-        }}
-      >
+      <View style={ styles.spacingList }>
         <AppButton onPress={ handleCreateAlbum }>
           Add album
         </AppButton>
       </View>
     );
-  };
-  const renderFooter = () => {
+  }, [handleCreateAlbum]);
+  const renderFooter = useCallback(() => {
     return loading
       ? (
-        <Loading />
+        <View style={ styles.spacingList }>
+          <Loading />
+        </View>
       )
       : null;
-  };
+  }, [loading]);
 
-  const renderItem = (rowData: ListRenderItemInfo<any>) => {
+  const renderItem = useCallback((rowData: ListRenderItemInfo<any>) => {
     return (
       <AlbumListItem rowData={ rowData } />
     );
-  };
+  }, []);
 
   // ======================================================
   // MAIN RENDER
   // ======================================================
   return (
-    <View
-      style={{
-        flex: 1,
-      }}
-    >
+    <View style={ styles.root }>
       {
         !records ? (
           <Loading />
@@ -207,3 +198,16 @@ export default function AlbumsScreen({ navigation }: AlbumsProps) {
     </View>
   );
 }
+
+const getStyles : GetStyle = ({ spacing }) => ({
+  root: {
+    flex: 1,
+  },
+  spacingList: {
+    justifyContent: 'center',
+    paddingLeft: spacing.defaultMargin * 2,
+    paddingRight: spacing.defaultMargin * 2,
+    marginTop: spacing.defaultMargin,
+    marginBottom: spacing.defaultMargin,
+  },
+});
