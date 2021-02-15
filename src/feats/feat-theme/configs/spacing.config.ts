@@ -1,5 +1,3 @@
-import { widthPercentToPx } from '../../feat-utils/native-utils';
-
 export interface ThemeSpacing {
   defaultMargin: number,
   formFieldMarginHorizontal: number,

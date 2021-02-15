@@ -2,7 +2,7 @@ import React from 'react';
 import { Text, View } from 'react-native';
 import { Avatar, Title } from 'react-native-paper';
 
-import { widthPercentToPx } from '../../feats/feat-utils/native-utils';
+import { widthPercentToPx } from '../../core-feats/feat-native-utils/native-utils';
 import FONT_SIZES from '../../feats/feat-theme/configs/font-sizes.config';
 
 // ======================================================

@@ -13,7 +13,7 @@ import QuestionIcon from './icons/QuestionIcon';
 import UserIcon from './icons/UserIcon';
 
 import RootScreens from './root-navigation';
-import GetStyle from './feats/feat-utils/get-style-type';
+import GetStyle from './core-feats/feat-native-utils/get-style-type';
 
 const FooterTabs = createMaterialBottomTabNavigator();
 

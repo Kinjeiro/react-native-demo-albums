@@ -13,8 +13,7 @@ import {
 } from 'react-native-swipe-list-view';
 import { IconButton, useTheme } from 'react-native-paper';
 
-import GetStyle from '../../feats/feat-utils/get-style-type';
-
+import GetStyle from '../../core-feats/feat-native-utils/get-style-type';
 
 // ======================================================
 // MODULE

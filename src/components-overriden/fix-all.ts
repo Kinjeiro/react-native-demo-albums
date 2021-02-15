@@ -1,8 +1,4 @@
-import fixReactNativeTextStyle from './react-native/fix-text';
-import fixReactNativeTextInputStyle from './react-native/fix-text-input';
-
-import FONT_SIZES from '../feats/feat-theme/configs/font-sizes.config';
-import { IS_WEB } from '../feats/feat-utils/native-utils';
+import { IS_WEB } from '../core-feats/feat-native-utils/native-utils';
 
 let applied = false;
 

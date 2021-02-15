@@ -5,7 +5,7 @@ import {
 import { Title, useTheme } from 'react-native-paper';
 
 import SmallText from '../../../../components/SmallText/SmallText';
-import GetStyle from '../../../../feats/feat-utils/get-style-type';
+import GetStyle from '../../../../core-feats/feat-native-utils/get-style-type';
 
 // todo @ANKU @LOW - GQL TS
 
