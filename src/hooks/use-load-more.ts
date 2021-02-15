@@ -1,5 +1,6 @@
 import { useQuery } from '@apollo/client';
 import { DocumentNode } from 'graphql';
+import { GQLPageMetadata, GQLPaginationLinks } from '../feats/feat-graphql/graphqlTypes';
 
 // todo @ANKU @CRIT @MAIN @debugger - чисто для наглядности, что работает поставил 3
 export const DEFAULT_LIMIT = 3;
@@ -10,20 +11,25 @@ export type VariablesType = {
   [key: string]: any,
 };
 
-// todo @ANKU @LOW - добавить TS тип
-export default function useLoadMore(
+export type ExtractorResultType<RecordType> = {
+  data?: Array<RecordType | null>;
+  links?: GQLPaginationLinks;
+  meta?: GQLPageMetadata;
+};
+
+export default function useLoadMore<QueryType, QueryVariablesType extends VariablesType, RecordType>(
   query: DocumentNode,
-  variables: VariablesType,
-  dataExtractorFn: (data: Object) => Object,
-  mergeFn: (prev: Object, next: Object) => Object,
+  variables: QueryVariablesType | undefined,
+  dataExtractorFn: (data: QueryType) => ExtractorResultType<RecordType> | undefined,
+  mergeFn: (prev: QueryType, next: QueryType) => QueryType,
 ) {
   const {
     page = 1,
     limit = DEFAULT_LIMIT,
-  } = variables;
+  } = variables || {};
 
   // todo @ANKU @LOW - сгенерировать из схемы TS интерфейсы и прописать их тут
-  const gqlResponse = useQuery(
+  const gqlResponse = useQuery<QueryType>(
     query,
     {
       // todo @ANKU @CRIT @MAIN @debugger - так как у нас сервер не изменяется после добавления, а страница полностью перезагружается ставим приоритет кеша
@@ -48,8 +54,8 @@ export default function useLoadMore(
     data,
   } = gqlResponse;
 
-  const records = data && dataExtractorFn(data).data;
-  const totalCount = data && dataExtractorFn(data).meta.totalCount;
+  const records = (data && dataExtractorFn(data)?.data) || [];
+  const totalCount = (data && dataExtractorFn(data)?.meta?.totalCount) || 0;
 
   return {
     loading,
@@ -71,10 +77,10 @@ export default function useLoadMore(
             page: Math.ceil(records.length / DEFAULT_LIMIT) + 1,
           },
           updateQuery: (previousResult, { fetchMoreResult }) => {
-            const newRecords = fetchMoreResult && dataExtractorFn(fetchMoreResult).data;
+            const newRecords = fetchMoreResult && dataExtractorFn(fetchMoreResult)?.data;
 
             // Don't do anything if there weren't any new items
-            if (!fetchMoreResult || newRecords.length === 0) {
+            if (!fetchMoreResult || !newRecords || newRecords.length === 0) {
               return previousResult;
             }
 
@@ -91,7 +97,6 @@ export default function useLoadMore(
             //};
             return mergeFn(previousResult, fetchMoreResult);
           },
-
         });
       }
     },

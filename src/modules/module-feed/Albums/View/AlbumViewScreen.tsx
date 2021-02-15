@@ -1,84 +1,20 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { RouteProp } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { gql, useQuery } from '@apollo/client';
+import { useQuery } from '@apollo/client';
+import { CarouselProps } from 'react-native-snap-carousel';
 
 import Loading from '../../../../components/Loading/Loading';
+import { GQLPhoto } from '../../../../feats/feat-graphql/graphqlTypes';
 
 // ======================================================
 // MODULE
 // ======================================================
 import FeedScreens, { FeedScreensParamList } from '../../feed-navigation';
 import Slider from './PhotoSlider/Slider';
+import { QUERY_ALBUM_BY_ID, QueryAlbumByIdVariablesType, QueryAlbumByIdType } from './grapql-album-view';
+import SliderEntryPhoto from './SliderEntryPhoto';
 
-const QUERY_ALBUM_BY_ID = gql`
-    query queryAlbumById($albumId: ID!) {
-        album(id: $albumId) {
-            id
-            title
-            photos {
-                data {
-                    id
-                    title
-                    url
-                    thumbnailUrl
-                }
-            }
-        }
-    }
-`;
-
-
-// const renderItem = ({ item, index }) => {
-//  const {
-//    id,
-//    title,
-//    url,
-//    thumbnailUrl,
-//  } = item;
-//
-//  return (
-//    <View
-//      key={ url }
-//      style={ [
-//        {
-//          backgroundColor: 'aqua',
-//          flex: 1,
-//          flexDirection: 'column',
-//          alignItems: 'center',
-//          justifyContent: 'center',
-//
-//          borderRadius: 5,
-//          height: 250,
-//          // padding: 50,
-//          // marginLeft: 25,
-//          // marginRight: 25,
-//        },
-//      ] }
-//    >
-//      <Text style={{ }}>
-//        TEST
-//      </Text>
-//      <View style={ [
-//        CommonStyles.imageContainer,
-//        {
-//          width: viewportWidth,
-//          height: 100,
-//        },
-//      ] }
-//      >
-//        <Image
-//          source={{ uri: thumbnailUrl }}
-//          style={ CommonStyles.image }
-//          // resizeMode="contain"
-//        />
-//      </View>
-//      <Text style={{ fontSize: 30 }}>
-//        {title}
-//      </Text>
-//    </View>
-//  );
-// };
 
 export type AlbumViewScreenProps = {
   route: RouteProp<FeedScreensParamList, FeedScreens.ALBUM_VIEW>;
@@ -93,82 +29,32 @@ export default function AlbumViewScreen(props: AlbumViewScreenProps) {
     },
   } = props;
 
-  // const [activeSlide, setActiveSlide] = useState(0);
+  const { data, loading } = useQuery<QueryAlbumByIdType, QueryAlbumByIdVariablesType>(
+    QUERY_ALBUM_BY_ID,
+    { variables: { albumId } },
+  );
+  const photos = data?.album.photos?.data;
 
-  const { data, loading } = useQuery(QUERY_ALBUM_BY_ID, { variables: { albumId } });
-
-  // renderItem(item: { item: T; index: number }, parallaxProps?: AdditionalParallaxProps): React.ReactNode;
+  const renderItemWithParallax : CarouselProps<GQLPhoto>['renderItem'] = useCallback((item, parallaxProps) => {
+    return (
+      <SliderEntryPhoto
+        data={ item.item }
+        parallax={ true }
+        parallaxProps={ parallaxProps }
+      />
+    );
+  }, []);
 
   return (
-    loading ? (
+    (loading || !photos) ? (
       <Loading />
     ) : (
       <Slider
-        data={ data.album.photos.data }
+        data={ photos }
+        renderItem={ renderItemWithParallax }
       />
     )
   );
-
-  // return (
-  //  <View
-  //    style={{
-  //      flex: 1,
-  //    }}
-  //  >
-  //    {
-  //      loading ? (
-  //        <Loading />
-  //      ) : (
-  //        <SafeAreaView
-  //          style={{
-  //            flex: 1,
-  //            // backgroundColor: 'yellow',
-  //            // paddingTop: 50,
-  //            // alignItems: 'center',
-  //            // justifyContent: 'center',
-  //          }}
-  //        >
-  //          <View
-  //            style={{
-  //              flex: 1,
-  //              flexDirection: 'column',
-  //              // alignItems: 'center',
-  //              // justifyContent: 'center',
-  //              // backgroundColor: 'green',
-  //              // height: 100,
-  //            }}
-  //          >
-  //            <Carousel
-  //              layout="default"
-  //              data={ data.album.photos.data }
-  //              sliderWidth={ viewportWidth }
-  //              itemWidth={ viewportWidth }
-  //              renderItem={ renderItem }
-  //              onSnapToItem={ setActiveSlide }
-  //            />
-  //            <Pagination
-  //              dotsLength={ data.album.photos.data.length }
-  //              activeDotIndex={ activeSlide }
-  //              containerStyle={{ backgroundColor: 'rgba(0, 0, 0, 0.75)' }}
-  //              dotStyle={{
-  //                width: 10,
-  //                height: 10,
-  //                borderRadius: 5,
-  //                marginHorizontal: 8,
-  //                backgroundColor: 'rgba(255, 255, 255, 0.92)',
-  //              }}
-  //              inactiveDotStyle={{
-  //                // Define styles for inactive dots here
-  //              }}
-  //              inactiveDotOpacity={ 0.4 }
-  //              inactiveDotScale={ 0.6 }
-  //            />
-  //          </View>
-  //        </SafeAreaView>
-  //      )
-  //    }
-  //  </View>
-  // );
 }
 
 // const styles = StyleSheet.create({

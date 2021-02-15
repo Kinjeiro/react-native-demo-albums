@@ -44,7 +44,7 @@ export function setInDeepReducer<T extends Object>(
   path: string | string[],
   mergedDataOrFn: ((origin: T, path: string | string[]) => any) | any,
   options: { cloneOrigin: boolean } = { cloneOrigin: true },
-) {
+): T {
   return lodashSet(
     options.cloneOrigin ? lodashCloneDeep(origin) : origin,
     path,

@@ -1,8 +1,7 @@
 import React from 'react';
 import {
-  ActivityIndicator, FlatList, ListRenderItemInfo, View
+  ActivityIndicator, FlatList, ListRenderItemInfo, View,
 } from 'react-native';
-import { gql } from '@apollo/client';
 import { useTheme } from 'react-native-paper';
 
 import USER from '../../../feats/feat-auth/user.data';
@@ -13,31 +12,13 @@ import useLoadMore from '../../../hooks/use-load-more';
 // MODULE
 // ======================================================
 import PostListItem from './PostListItem';
-
-// todo @ANKU @LOW - paging
-const QUERY_POSTS_BY_USER = gql`
-    query selectPostsByUser($userId: ID!, $page: Int, $limit: Int) {
-        user(id: $userId) {
-            id
-            posts(options: { paginate: { page: $page, limit: $limit } }) {
-                meta {
-                    totalCount
-                }
-                data {
-                    id
-                    title
-                    body
-                    user {
-                        name
-                    }
-                }
-            }
-        }
-    }
-`;
+import { QueryPostsByUserType, QueryPostsByUserVariablesType, getQueryPostsByUserKey } from './graphql-posts';
+import { GQLPost } from '../../../feats/feat-graphql/graphqlTypes';
 
 export default function Posts() {
   const { colors } = useTheme();
+
+  const queryKey = getQueryPostsByUserKey(USER.id);
 
   const {
     loading,
@@ -45,11 +26,9 @@ export default function Posts() {
     totalCount,
     gqlResponse,
     onLoadMore,
-  } = useLoadMore(
-    QUERY_POSTS_BY_USER,
-    {
-      userId: USER.id,
-    },
+  } = useLoadMore<QueryPostsByUserType, QueryPostsByUserVariablesType, GQLPost>(
+    queryKey.query,
+    queryKey.variables,
     (data) => data && data.user.posts,
     (prev, next) => ({
       ...prev,
@@ -58,7 +37,7 @@ export default function Posts() {
         ...prev.user,
         posts: {
           ...prev.user.posts,
-          data: prev.user.posts.data.concat(next.user.posts.data),
+          data: prev.user.posts?.data?.concat(next.user.posts?.data || []),
         },
       },
     }),

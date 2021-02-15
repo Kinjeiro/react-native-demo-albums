@@ -14,16 +14,15 @@ import { useTheme } from 'react-native-paper';
 // const queryAlbumsByUser = loader('./query-albums-by-user.graphql');
 
 import { setInDeepReducer } from '../../../../core-feats/feat-common-utils/common-utils';
-import useLoadMore from '../../../../hooks/use-load-more';
-
 import { IS_WEB } from '../../../../core-feats/feat-native-utils/native-utils';
 import { sleep } from '../../../../core-feats/feat-common-utils/promise-utils';
+import GetStyle from '../../../../core-feats/feat-native-utils/get-style-type';
 import USER from '../../../../feats/feat-auth/user.data';
+import useLoadMore from '../../../../hooks/use-load-more';
 import Loading from '../../../../components/Loading/Loading';
 import ListWithSwypes, { ListWithSwypesCallback } from '../../../../components/ListWithSwypes/ListWithSwypes';
 import AppButton from '../../../../components-overriden/AppButton/AppButton';
 import BottomModal from '../../../../components/BottomModal/BottomModal';
-import GetStyle from '../../../../core-feats/feat-native-utils/get-style-type';
 
 
 // ======================================================
@@ -32,7 +31,25 @@ import GetStyle from '../../../../core-feats/feat-native-utils/get-style-type';
 import FeedScreens from '../../feed-navigation';
 import AlbumListItem from './AlbumListItem';
 import DeleteDialog from './DeleteDialog';
-import { getQueryAlbumsByUserKey, MUTATION_ALBUM_REMOVE } from './graphql-albums';
+import {
+  getQueryAlbumsByUserKey,
+  MUTATION_ALBUM_REMOVE,
+  MutationAlbumRemoveType,
+  QueryAlbumsByUserType, QueryAlbumsByUserVariablesType,
+} from './graphql-albums';
+import { GQLAlbum } from '../../../../feats/feat-graphql/graphqlTypes';
+
+
+// todo @ANKU @LOW - в вебе падает - Note: React Native MaskedView is not currently supported by Expo unless you
+// "eject". TypeError: Object(...) is not a function Module.
+// \node_modules\@react-native-community\masked-view\js\MaskedView.js
+// /node_modules/@react-native-community/masked-view/js/MaskedView.js:14 11 | import React from 'react'; 12 | import
+// { View, StyleSheet, requireNativeComponent } from 'react-native'; 13 | > 14 | const RNCMaskedView =
+// requireNativeComponent<any>('RNCMaskedView'); 15 | 16 | import { type MaskedViewProps } from './MaskedViewTypes';
+const SkeletonClass = IS_WEB
+  ? Loading
+  : require('./AlbumItemSkeleton').default;
+
 
 interface AlbumsProps {
   navigation: StackNavigationProp<any>
@@ -48,28 +65,28 @@ export default function AlbumsScreen({ navigation }: AlbumsProps) {
     totalCount,
     gqlResponse,
     onLoadMore,
-  } = useLoadMore(
+  } = useLoadMore<QueryAlbumsByUserType, QueryAlbumsByUserVariablesType, GQLAlbum>(
     queryAlbumByUserKey.query,
     queryAlbumByUserKey.variables,
-    (data) => data && data.user.albums,
-    (prev, next) => setInDeepReducer<any>(
+    (data) => data.user.albums,
+    (prev, next) => setInDeepReducer<QueryAlbumsByUserType>(
       prev,
       'user.albums.data',
-      prev.user.albums.data.concat(next.user.albums.data),
+      prev.user.albums?.data?.concat(next.user.albums?.data || []),
     ),
   );
 
-  const [apiRemoveAlbum] = useMutation(
+  const [apiRemoveAlbum] = useMutation<MutationAlbumRemoveType>(
     MUTATION_ALBUM_REMOVE,
     {
       // todo @ANKU @LOW - переместить к описанию запроса
       optimisticResponse: {
-        __typename: 'Mutation',
+        //__typename: 'Mutation',
         deleteAlbum: true,
       },
       update: (proxy, { data }) => {
-        const prevData = proxy.readQuery(queryAlbumByUserKey);
-        if (prevData) {
+        const prevData = proxy.readQuery<QueryAlbumsByUserType>(queryAlbumByUserKey);
+        if (prevData?.user.albums?.meta?.totalCount) {
           proxy.writeQuery({
             ...queryAlbumByUserKey,
             data: setInDeepReducer<any>(
@@ -79,7 +96,7 @@ export default function AlbumsScreen({ navigation }: AlbumsProps) {
                 meta: {
                   totalCount: prevData.user.albums.meta.totalCount - 1,
                 },
-                data: prevData.user.albums.data.filter(({ id }) => id !== deletingAlbumId)
+                data: prevData.user.albums.data?.filter((album) => album && album.id !== deletingAlbumId),
               }
               ,
             ),
@@ -150,18 +167,8 @@ export default function AlbumsScreen({ navigation }: AlbumsProps) {
 
 
   const renderSkeleton = useCallback(() => {
-    // todo @ANKU @LOW - в вебе падает - Note: React Native MaskedView is not currently supported by Expo unless you
-    // "eject". TypeError: Object(...) is not a function Module.
-    // \node_modules\@react-native-community\masked-view\js\MaskedView.js
-    // /node_modules/@react-native-community/masked-view/js/MaskedView.js:14 11 | import React from 'react'; 12 | import
-    // { View, StyleSheet, requireNativeComponent } from 'react-native'; 13 | > 14 | const RNCMaskedView =
-    // requireNativeComponent<any>('RNCMaskedView'); 15 | 16 | import { type MaskedViewProps } from './MaskedViewTypes';
-    const Skeleton = IS_WEB
-      ? Loading
-      : require('./AlbumItemSkeleton').default;
-
     return (
-      <Skeleton />
+      <SkeletonClass />
     );
   }, []);
 
@@ -170,7 +177,7 @@ export default function AlbumsScreen({ navigation }: AlbumsProps) {
   // ======================================================
   return (
     <View style={ styles.root }>
-{/*      // <SkeletonContent
+      { /*      // <SkeletonContent
       //  containerStyle={{ flex: 1 width: 300 }}
       //  isLoading={!records}
       //  layout={[
@@ -180,7 +187,7 @@ export default function AlbumsScreen({ navigation }: AlbumsProps) {
       //>
       //  <Text style={styles.normalText}>Your content</Text>
       //  <Text style={styles.bigText}>Other content</Text>
-      //</SkeletonContent>*/}
+      //</SkeletonContent>*/ }
       {
         !records
           ? renderSkeleton()

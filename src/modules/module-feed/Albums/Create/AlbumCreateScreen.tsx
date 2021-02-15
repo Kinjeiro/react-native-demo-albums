@@ -16,7 +16,11 @@ import AppButton from '../../../../components-overriden/AppButton/AppButton';
 // MODULE
 // ======================================================
 import TextInputCustom from './TextInputCustom';
-import { MUTATION_ALBUM_CREATE } from './graphql-album-create';
+import {
+  MUTATION_ALBUM_CREATE,
+  MutationAlbumCreateType,
+  MutationAlbumCreateVariablesType,
+} from './graphql-album-create';
 import { getQueryAlbumsByUserKey } from '../List/graphql-albums';
 import FeedScreens from '../../feed-navigation';
 
@@ -57,7 +61,7 @@ export default function AlbumCreateScreen({ navigation }: AlbumCreateScreenProps
   const theme = useTheme();
 
   const queryAlbumByUserKey = getQueryAlbumsByUserKey(USER.id);
-  const [apiCreateAlbum] = useMutation(
+  const [apiCreateAlbum] = useMutation<MutationAlbumCreateType, MutationAlbumCreateVariablesType>(
     MUTATION_ALBUM_CREATE,
     {
       update: (proxy, { data }) => {
@@ -65,16 +69,16 @@ export default function AlbumCreateScreen({ navigation }: AlbumCreateScreenProps
         if (prevQueryResult) {
           proxy.writeQuery({
             ...queryAlbumByUserKey,
-            data: setInDeepReducer<any>(
+            data: setInDeepReducer(
               prevQueryResult,
               'user.albums',
               {
                 meta: {
-                  totalCount: prevQueryResult.user.albums.meta.totalCount + 1,
+                  totalCount: (prevQueryResult.user.albums?.meta?.totalCount || 0) + 1,
                 },
                 data: [
-                  ...prevQueryResult.user.albums.data,
-                  data.createAlbum,
+                  ...(prevQueryResult.user.albums?.data || []),
+                  data?.createAlbum,
                 ],
               },
             ),

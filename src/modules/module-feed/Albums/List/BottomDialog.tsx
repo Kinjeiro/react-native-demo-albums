@@ -7,8 +7,7 @@ import { StyleSheet, View } from 'react-native';
 interface BottomDialogProps extends PropsWithChildren<any> {
   renderContent: any,
 }
-
-const BottomDialog = React.forwardRef((props: BottomDialogProps, ref: ForwardedRef<BottomSheet>) => {
+const BottomDialog = React.forwardRef<BottomSheet, BottomDialogProps>((props, ref) => {
   const {
     //ref,
     renderContent,
@@ -38,7 +37,7 @@ const BottomDialog = React.forwardRef((props: BottomDialogProps, ref: ForwardedR
   };
 
   const onClose = () => {
-    alert('Close');
+    //@ts-ignore - почему или в тайпах не рассматривает - ошибка TS
     ref?.current.snapTo(1);
   };
 

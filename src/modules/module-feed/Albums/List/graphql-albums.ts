@@ -1,5 +1,9 @@
 import { gql } from '@apollo/client';
+import { Cache } from '@apollo/client/cache/core/types/Cache';
+
+import { GQLUser } from '../../../../feats/feat-graphql/graphqlTypes';
 import { DEFAULT_LIMIT } from '../../../../hooks/use-load-more';
+
 
 export const QUERY_ALBUMS_BY_USER = gql`
     query selectAlbumsByUser($userId: ID!, $page: Int, $limit: Int) {
@@ -28,8 +32,18 @@ export const QUERY_ALBUMS_BY_USER = gql`
         }
     }
 `;
-export function getQueryAlbumsByUserKey(userId: string) {
+export type QueryAlbumsByUserType = {
+  user: GQLUser,
+};
+export type QueryAlbumsByUserVariablesType = {
+  userId: string,
+  page: number,
+  limit: number,
+};
+export function getQueryAlbumsByUserKey(userId: string)
+  : Cache.ReadQueryOptions<QueryAlbumsByUserType, QueryAlbumsByUserVariablesType> {
   return {
+    //propTypes,
     query: QUERY_ALBUMS_BY_USER,
     variables: {
       userId,
@@ -44,3 +58,6 @@ export const MUTATION_ALBUM_REMOVE = gql`
         deleteAlbum(id: $albumId)
     } 
 `;
+export type MutationAlbumRemoveType = {
+  deleteAlbum: boolean,
+};

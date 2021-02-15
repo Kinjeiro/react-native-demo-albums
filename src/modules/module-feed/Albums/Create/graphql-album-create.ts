@@ -1,4 +1,6 @@
 import { gql } from '@apollo/client';
+import { GQLAlbum } from '../../../../feats/feat-graphql/graphqlTypes';
+import { CreateAlbumInput } from '../../../../feats/feat-graphql/graphqlTypesAdditional';
 
 export const MUTATION_ALBUM_CREATE = gql`
     mutation creteAlbum($albumInputData: CreateAlbumInput!) {
@@ -19,3 +21,9 @@ export const MUTATION_ALBUM_CREATE = gql`
         }
     }
 `;
+export type MutationAlbumCreateType = {
+  createAlbum: GQLAlbum,
+};
+export type MutationAlbumCreateVariablesType = {
+  albumInputData: CreateAlbumInput,
+};

@@ -1,35 +1,35 @@
-import React, { useCallback, useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import {
   View, ScrollView, StatusBar, SafeAreaView,
 } from 'react-native';
-import Carousel, { Pagination } from 'react-native-snap-carousel';
+import Carousel, { CarouselProps } from 'react-native-snap-carousel';
 
 import { sliderWidth, itemWidth } from './SliderEntryStyle';
-import SliderEntry from './SliderEntry';
 import styles from './Slider.style';
 
 const SLIDER_1_FIRST_ITEM = 1;
 
-type SliderProps = {
-  data: ReadonlyArray<any>,
+type SliderProps<T> = {
+  data: ReadonlyArray<T>,
+  renderItem: CarouselProps<T>['renderItem'],
 };
-
-export default function Slider(props: SliderProps) {
+export default function Slider<T>(props: SliderProps<T>) {
   const {
     data,
+    renderItem,
   } = props;
   //const [slider1ActiveSlide, setSlider1ActiveSlide] = useState(SLIDER_1_FIRST_ITEM);
   const sliderRef = useRef(null);
 
-  const renderItemWithParallax = useCallback(({ item, index }, parallaxProps) => {
-    return (
-      <SliderEntry
-        data={ item }
-        parallax={ true }
-        parallaxProps={ parallaxProps }
-      />
-    );
-  }, []);
+  //const renderItemWithParallax = useCallback(({ item, index }, parallaxProps) => {
+  //  return (
+  //    <SliderEntry
+  //      data={ item }
+  //      parallax={ true }
+  //      parallaxProps={ parallaxProps }
+  //    />
+  //  );
+  //}, []);
 
   return (
     <SafeAreaView style={ styles.safeArea }>
@@ -51,7 +51,8 @@ export default function Slider(props: SliderProps) {
             <Carousel
               ref={ sliderRef }
               data={ data }
-              renderItem={ renderItemWithParallax }
+              //@ts-ignore - тип функции правильный - это баг с определением
+              renderItem={ renderItem }
               sliderWidth={ sliderWidth }
               itemWidth={ itemWidth }
               hasParallaxImages={ true }

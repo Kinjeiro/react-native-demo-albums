@@ -1,20 +1,36 @@
-import React, { useCallback } from 'react';
-import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
-import { ParallaxImage } from 'react-native-snap-carousel';
+import React from 'react';
+import {
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+  StyleSheet,
+} from 'react-native';
+import { AdditionalParallaxProps, ParallaxImage } from 'react-native-snap-carousel';
 import { Title, useTheme } from 'react-native-paper';
 
-import GetStyle from '../../../../../core-feats/feat-native-utils/get-style-type';
-import LinkIcon from '../../../../../icons/LinkIcon';
+import GetStyle from '../../../../core-feats/feat-native-utils/get-style-type';
+import { GQLPhoto } from '../../../../feats/feat-graphql/graphqlTypes';
+import LinkIcon from '../../../../icons/LinkIcon';
 
-import styles from './SliderEntryStyle';
+// ======================================================
+// MODULE
+// ======================================================
+import styles from './PhotoSlider/SliderEntryStyle';
+
 
 type SliderEntryProps = {
-  data: Object,
+  data: GQLPhoto,
   even?: Boolean,
   parallax?: Boolean,
-  parallaxProps?: Object,
+  parallaxProps?: AdditionalParallaxProps,
 };
-export default React.memo(function SliderEntry(props: SliderEntryProps) {
+SliderEntryPhoto.defaultProps = {
+  even: false,
+  parallax: false,
+  parallaxProps: undefined,
+};
+function SliderEntryPhoto(props: SliderEntryProps) {
   const {
     data: {
       url,
@@ -84,7 +100,9 @@ export default React.memo(function SliderEntry(props: SliderEntryProps) {
       </View>
     </TouchableOpacity>
   );
-});
+}
+
+export default React.memo(SliderEntryPhoto);
 
 const getStyles : GetStyle = ({ spacing, colors }) => StyleSheet.create({
   textContainer: {
