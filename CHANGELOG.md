@@ -2,6 +2,30 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.1](https://github.com/mokkapps/changelog-generator-demo/compare/v0.1.0...v0.1.1) (2021-02-15)
+
+
+### Features
+
+* **graphql:** graphql-schema-typescript@1.5.2 \ npm run transform-gql convert to TS ([77676ac](https://github.com/mokkapps/changelog-generator-demo/commits/77676ac2ee9dfe1bdb21621a21babcc16c61140b))
+* **module_feed:** add Skeleton for Album feed ([3198004](https://github.com/mokkapps/changelog-generator-demo/commits/31980046de41ad9fab20c9ee174d80c3d7ca908b))
+* **module_feed:** styling Album View ([70aa46f](https://github.com/mokkapps/changelog-generator-demo/commits/70aa46ffa2d51e974df5a8b0a4b604e58e623770))
+
+
+### Bug Fixes
+
+* **comp_AppButton:** loading doesn't show in Emulator ([6a132f8](https://github.com/mokkapps/changelog-generator-demo/commits/6a132f84bb18838d4aa5638ab7fea492565381ef))
+
+
+### Refactoring
+
+* **module_feed:** AlbumsScreen optimizations ([e5eff09](https://github.com/mokkapps/changelog-generator-demo/commits/e5eff09606c6bb54ccc7ecbbf9884a0018e51518))
+
+
+### Chore
+
+* **eslint:** add new comfortable rules more ([af78cf9](https://github.com/mokkapps/changelog-generator-demo/commits/af78cf9de2750e6215d0b30f92cd8b17ceb57216))
+
 ## [0.1.0](https://github.com/mokkapps/changelog-generator-demo/compare/v0.0.14...v0.1.0) (2021-02-15)
 
 ### [0.0.14](https://github.com/mokkapps/changelog-generator-demo/compare/v0.0.13...v0.0.14) (2021-02-15)
