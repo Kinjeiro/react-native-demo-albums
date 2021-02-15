@@ -2,6 +2,32 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.12](https://github.com/mokkapps/changelog-generator-demo/compare/v0.0.11...v0.0.12) (2021-02-15)
+
+
+### Features
+
+* **auth:** move stub user to user.data.ts file ([a52f60d](https://github.com/mokkapps/changelog-generator-demo/commits/a52f60da89ca1e876fba0f08669ae5cfd8ae8444))
+* **comp_AppButton:** when handle return promise show loading on button ([163db69](https://github.com/mokkapps/changelog-generator-demo/commits/163db692d7fe5a6f83a2f1f5e4450e39044429ff))
+* **module_feed:** add Create Album mutation ([8df2b29](https://github.com/mokkapps/changelog-generator-demo/commits/8df2b29b494b149dc81a57f69ea872676e11d2de))
+* **module_feed:** add remove album mutation with loading ([b8f4d42](https://github.com/mokkapps/changelog-generator-demo/commits/b8f4d42a1b9fa9722d637e264ed8929bb6e08b9e))
+* **svg:** update svg icons ([1094be0](https://github.com/mokkapps/changelog-generator-demo/commits/1094be085aff4ea3ce440a1b12e390029fa6cfb9))
+
+
+### Bug Fixes
+
+* **comp_AppButton:** fix disabled when loading ([f354bee](https://github.com/mokkapps/changelog-generator-demo/commits/f354bee1179c427be0cfd0d3bbe6ba3215f5294b))
+
+
+### Refactoring
+
+* **links:** move utils methods in other files ([d36a460](https://github.com/mokkapps/changelog-generator-demo/commits/d36a4600b7a1cc4b43c63f2be465ed5f145ad781))
+
+
+### Chore
+
+* **eslint:** add new comfortable rules ([8f87e62](https://github.com/mokkapps/changelog-generator-demo/commits/8f87e624c6c4fe02d1a02817342f5b9a5d010872))
+
 ### [0.0.11](https://github.com/mokkapps/changelog-generator-demo/compare/v0.0.10...v0.0.11) (2021-02-13)
 
 
