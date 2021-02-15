@@ -19,14 +19,14 @@ import GetStyle from '../../core-feats/feat-native-utils/get-style-type';
 // MODULE
 // ======================================================
 // todo @ANKU @LOW - сделать по нормальному с пробрасыванием типа (IPropsSwipeListView.renderHiddenItem)
-type Callback = (rowData: ListRenderItemInfo<any>, rowMap: RowMap<any>) => Promise;
-export type ListWithSwypesCallback<Item> = ((rowData: ListRenderItemInfo<Item>) => Promise | void);
+type Callback = (rowData: ListRenderItemInfo<any>, rowMap: RowMap<any>) => Promise<any> | any;
+export type ListWithSwypesCallback<Item> = ((rowData: ListRenderItemInfo<Item>) => Promise<any> | any);
 
 //Partial<IUseSectionListProps<any>>,
 //Partial<IUseFlatListProps<any>>,
 type ListWithSwypesProps = Partial<IUseSectionListProps<any>>
-| Partial<IUseFlatListProps<any>>
-| {
+& Partial<IUseFlatListProps<any>>
+& {
   data: any,
 
   renderItem?: ListWithSwypesCallback<any>,
@@ -77,7 +77,7 @@ function ListWithSwypes(props: ListWithSwypesProps) {
         renderItem
           ? renderItem(rowData, rowMap)
           // todo @ANKU @LOW - сделать нативный из их внутреннего метода
-          : 'TODO'
+          : undefined
       }
     </TouchableHighlight>
   );

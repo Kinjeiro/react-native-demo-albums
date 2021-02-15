@@ -15,7 +15,7 @@ export default function UserProfileScreen() {
   // todo @ANKU @CRIT @MAIN - получать пользователя
   const user = USER;
   const {
-    login,
+    username,
     name,
     url,
   } = user;
@@ -47,7 +47,7 @@ export default function UserProfileScreen() {
               fontSize: FONT_SIZES.bigText,
             }}
           >
-            { login }
+            { username }
           </Title>
           <Text
             style={{

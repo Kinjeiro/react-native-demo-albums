@@ -15,6 +15,8 @@ module.exports = {
   },
   ignorePatterns: [
     '.eslintrc.js',
+    '*.js',
+    '*.d.ts',
   ],
   plugins: ['react', 'react-hooks', '@typescript-eslint'],
   settings: {

@@ -1,13 +1,19 @@
 import React from 'react';
 import { useTheme } from 'react-native-paper';
 import { Text, View } from 'react-native';
+import { UserStub } from '../../feats/feat-auth/user.data';
 
-export default function UserProfileParams({ user }) {
+// todo @ANKU @CRIT @MAIN - грузить пользователя
+//import { GQLUser } from '../../feats/feat-graphql/graphqlTypes';
+
+//export default function UserProfileParams({ user }: { user: GQLUser }) {
+export default function UserProfileParams({ user }: { user: UserStub }) {
   const theme = useTheme();
 
-  const fieldInfos = [
+  //const fieldInfos : { field: keyof GQLUser, label: string }[] = [
+  const fieldInfos : { field: keyof UserStub, label: string }[] = [
     { field: 'email', label: 'Email' },
-    { field: 'site', label: 'Website' },
+    { field: 'website', label: 'Website' },
     { field: 'company', label: 'Company Name' },
     { field: 'phone', label: 'Phone' },
     { field: 'address', label: 'Address' },
