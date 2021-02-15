@@ -1,5 +1,5 @@
 import { StyleSheet, Dimensions, Platform } from 'react-native';
-import { colors } from './index-style';
+import { colors } from './Slider.style';
 
 const IS_IOS = Platform.OS === 'ios';
 const { width: viewportWidth, height: viewportHeight } = Dimensions.get('window');
@@ -9,7 +9,7 @@ function wp(percentage: number) {
   return Math.round(value);
 }
 
-// const slideHeight = viewportHeight * 0.36;
+ //const slideHeight = viewportHeight * 0.36;
 const slideHeight = viewportHeight * 0.6;
 const slideWidth = wp(75);
 const itemHorizontalMargin = wp(2);
@@ -24,7 +24,7 @@ export default StyleSheet.create({
     width: itemWidth,
     height: slideHeight,
     paddingHorizontal: itemHorizontalMargin,
-    paddingBottom: 18, // needed for shadow
+    //paddingBottom: 18, // needed for shadow
   },
   shadow: {
     position: 'absolute',
@@ -42,8 +42,9 @@ export default StyleSheet.create({
     flex: 1,
     marginBottom: IS_IOS ? 0 : -1, // Prevent a random Android rendering issue
     backgroundColor: 'white',
-    borderTopLeftRadius: entryBorderRadius,
-    borderTopRightRadius: entryBorderRadius,
+    borderRadius: entryBorderRadius,
+    //borderTopLeftRadius: entryBorderRadius,
+    //borderTopRightRadius: entryBorderRadius,
   },
   imageContainerEven: {
     backgroundColor: colors.black,

@@ -1,5 +1,5 @@
 export default interface SvgIconProps {
-  width: number,
-  height: number,
-  fill: string,
+  width?: number,
+  height?: number,
+  fill?: string,
 }

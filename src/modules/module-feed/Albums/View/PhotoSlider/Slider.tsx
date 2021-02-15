@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import {
   View, ScrollView, StatusBar, SafeAreaView,
 } from 'react-native';
@@ -6,7 +6,7 @@ import Carousel, { Pagination } from 'react-native-snap-carousel';
 
 import { sliderWidth, itemWidth } from './SliderEntryStyle';
 import SliderEntry from './SliderEntry';
-import styles from './index-style';
+import styles from './Slider.style';
 
 const SLIDER_1_FIRST_ITEM = 1;
 
@@ -18,19 +18,18 @@ export default function Slider(props: SliderProps) {
   const {
     data,
   } = props;
-  const [slider1ActiveSlide, setSlider1ActiveSlide] = useState(SLIDER_1_FIRST_ITEM);
+  //const [slider1ActiveSlide, setSlider1ActiveSlide] = useState(SLIDER_1_FIRST_ITEM);
   const sliderRef = useRef(null);
 
-  const renderItemWithParallax = ({ item, index }, parallaxProps) => {
+  const renderItemWithParallax = useCallback(({ item, index }, parallaxProps) => {
     return (
       <SliderEntry
         data={ item }
-        even={ (index + 1) % 2 === 0 }
         parallax={ true }
         parallaxProps={ parallaxProps }
       />
     );
-  };
+  }, []);
 
   return (
     <SafeAreaView style={ styles.safeArea }>
@@ -67,7 +66,7 @@ export default function Slider(props: SliderProps) {
               // autoplay={ true }
               // autoplayDelay={ 500 }
               // autoplayInterval={ 3000 }
-              onSnapToItem={ setSlider1ActiveSlide }
+              //onSnapToItem={ setSlider1ActiveSlide }
             />
             {/* <Pagination
               dotsLength={ data.length }
