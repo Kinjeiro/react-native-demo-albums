@@ -11,6 +11,7 @@ export default function AppButton(props: React.ComponentProps<typeof Button>) {
     labelStyle,
     onPress,
     children,
+    disabled,
     ...restProps
   } = props;
   const theme = useTheme();
@@ -24,7 +25,14 @@ export default function AppButton(props: React.ComponentProps<typeof Button>) {
       if (isPromise(result)) {
         setLoading(true);
         // todo @ANKU @LOW - переписать чтобы onPress в типах мог возвращать Promise
-        return result.then(() => setLoading(false));
+        return result.then(() => {
+          try {
+            setLoading(false)
+          } catch (e) {
+            // todo @ANKU @CRIT @MAIN - warning не может обновить, если компонента уже нет - оформить красивее
+            console.debug('AppButton', e);
+          }
+        });
       }
       return result;
     }
@@ -38,6 +46,7 @@ export default function AppButton(props: React.ComponentProps<typeof Button>) {
 
       { ...restProps }
 
+      disabled={ isLoading || disabled }
       onPress={ handlePress }
 
       style={{
