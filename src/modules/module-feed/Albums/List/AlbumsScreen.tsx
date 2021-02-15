@@ -16,6 +16,7 @@ import { useTheme } from 'react-native-paper';
 import { setInDeepReducer } from '../../../../core-feats/feat-common-utils/common-utils';
 import useLoadMore from '../../../../hooks/use-load-more';
 
+import { IS_WEB } from '../../../../core-feats/feat-native-utils/native-utils';
 import { sleep } from '../../../../core-feats/feat-common-utils/promise-utils';
 import USER from '../../../../feats/feat-auth/user.data';
 import Loading from '../../../../components/Loading/Loading';
@@ -147,39 +148,67 @@ export default function AlbumsScreen({ navigation }: AlbumsProps) {
     );
   }, []);
 
+
+  const renderSkeleton = useCallback(() => {
+    // todo @ANKU @LOW - в вебе падает - Note: React Native MaskedView is not currently supported by Expo unless you
+    // "eject". TypeError: Object(...) is not a function Module.
+    // \node_modules\@react-native-community\masked-view\js\MaskedView.js
+    // /node_modules/@react-native-community/masked-view/js/MaskedView.js:14 11 | import React from 'react'; 12 | import
+    // { View, StyleSheet, requireNativeComponent } from 'react-native'; 13 | > 14 | const RNCMaskedView =
+    // requireNativeComponent<any>('RNCMaskedView'); 15 | 16 | import { type MaskedViewProps } from './MaskedViewTypes';
+    const Skeleton = IS_WEB
+      ? Loading
+      : require('./AlbumItemSkeleton').default;
+
+    return (
+      <Skeleton />
+    );
+  }, []);
+
   // ======================================================
   // MAIN RENDER
   // ======================================================
   return (
     <View style={ styles.root }>
+{/*      // <SkeletonContent
+      //  containerStyle={{ flex: 1 width: 300 }}
+      //  isLoading={!records}
+      //  layout={[
+      //    { key: 'someId', width: 220, height: 20, marginBottom: 6 },
+      //    { key: 'someOtherId', width: 180, height: 20, marginBottom: 6 }
+      //  ]}
+      //>
+      //  <Text style={styles.normalText}>Your content</Text>
+      //  <Text style={styles.bigText}>Other content</Text>
+      //</SkeletonContent>*/}
       {
-        !records ? (
-          <Loading />
-        ) : (
-          <ListWithSwypes
-            data={ records }
-            renderItem={ renderItem }
+        !records
+          ? renderSkeleton()
+          : (
+            <ListWithSwypes
+              data={ records }
+              renderItem={ renderItem }
 
-            onClickRow={ handleClickRow }
-            onDeleteRow={ handleDeleteRow }
+              onClickRow={ handleClickRow }
+              onDeleteRow={ handleDeleteRow }
 
-            /// / Item Key
-            // keyExtractor={ (item, index) => String(index) }
-            // Header (Title)
-            ListHeaderComponent={ renderHeader }
-            // Footer (Activity Indicator)
-            ListFooterComponent={ renderFooter }
+              /// / Item Key
+              // keyExtractor={ (item, index) => String(index) }
+              // Header (Title)
+              ListHeaderComponent={ renderHeader }
+              // Footer (Activity Indicator)
+              ListFooterComponent={ renderFooter }
 
-            // On End Reached (Takes a function)
-            onEndReached={ onLoadMore }
-            // How Close To The End Of List Until Next Data Request Is Made
-            onEndReachedThreshold={ 0.5 }
-            refreshing={ gqlResponse.networkStatus === 4 }
-            onRefresh={ handleRefresh }
-            /// / Refreshing (Set To True When End Reached)
-            // refreshing={ refreshing }
-          />
-        )
+              // On End Reached (Takes a function)
+              onEndReached={ onLoadMore }
+              // How Close To The End Of List Until Next Data Request Is Made
+              onEndReachedThreshold={ 0.5 }
+              refreshing={ gqlResponse.networkStatus === 4 }
+              onRefresh={ handleRefresh }
+              /// / Refreshing (Set To True When End Reached)
+              // refreshing={ refreshing }
+            />
+          )
       }
 
       {/*<BottomDialog

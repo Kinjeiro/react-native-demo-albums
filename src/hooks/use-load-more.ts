@@ -33,6 +33,7 @@ export default function useLoadMore(
       // todo @ANKU @LOW - при standby постоянный лоадинг внизу
       //fetchPolicy: 'standby',
       fetchPolicy: 'cache-first',
+      //fetchPolicy: 'cache-and-network',
       notifyOnNetworkStatusChange: true,
       variables: {
         ...variables,
