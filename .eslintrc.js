@@ -31,12 +31,16 @@ module.exports = {
     'spaced-comment': 0,
     'no-confusing-arrow': 0,
 
+    'no-nested-ternary': 0,
+    'import/prefer-default-export': 0,
+
     'react/no-unused-prop-types': 'warn',
 
     'react/jsx-indent-props': [2, 2],
     'react/jsx-boolean-value': ['error', 'always'],
     'react/jsx-curly-spacing': [2, 'always', {'spacing': { 'objectLiterals': 'never' }}], // spaces for jsx components props
     'react/jsx-props-no-multi-spaces': 0,
+    'react/destructuring-assignment': 0,
 
     '@typescript-eslint/no-use-before-define': 0,
     '@typescript-eslint/no-unused-vars': 'warn'
