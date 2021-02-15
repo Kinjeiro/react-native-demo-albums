@@ -1,16 +1,28 @@
 import React from 'react';
-import { View, ActivityIndicator } from 'react-native';
+import { View, ActivityIndicator, ActivityIndicatorProps } from 'react-native';
 import { useTheme } from 'react-native-paper';
 
 // todo @ANKU @LOW - сделать алиасы
 import CommonStyles from '../../styles/common-styles';
 
-export default function Loading() {
+type LoadingProps = React.ComponentProps<typeof View> & {
+  indicatorSize?: ActivityIndicatorProps['size'],
+};
+Loading.defaultProps = {
+  indicatorSize: 'large',
+};
+export default function Loading(props: LoadingProps) {
   const { colors } = useTheme();
+  const {
+    indicatorSize,
+  } = props;
 
   return (
-    <View style={ CommonStyles.centered }>
-      <ActivityIndicator size="large" color={ colors.primary } />
+    <View
+      { ...props }
+      style={{ ...CommonStyles.centered, ...props.style as {} }}
+    >
+      <ActivityIndicator size={ indicatorSize } color={ colors.primary } />
     </View>
   );
 }
