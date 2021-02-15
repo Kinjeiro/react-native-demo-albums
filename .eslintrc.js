@@ -33,6 +33,7 @@ module.exports = {
 
     'no-nested-ternary': 0,
     'import/prefer-default-export': 0,
+    'prefer-arrow-callback': 0,
 
     'react/no-unused-prop-types': 'warn',
 
@@ -41,6 +42,7 @@ module.exports = {
     'react/jsx-curly-spacing': [2, 'always', {'spacing': { 'objectLiterals': 'never' }}], // spaces for jsx components props
     'react/jsx-props-no-multi-spaces': 0,
     'react/destructuring-assignment': 0,
+    'react/jsx-props-no-spreading': 0,
 
     '@typescript-eslint/no-use-before-define': 0,
     '@typescript-eslint/no-unused-vars': 'warn'
