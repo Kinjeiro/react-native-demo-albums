@@ -1,7 +1,8 @@
 import React from 'react';
 import Svg, { G, Path } from 'react-native-svg';
+import SvgIconProps from './SvgIconProps';
 
-export default function UserIcon(props) {
+export default function UserIcon(props: SvgIconProps) {
   const {
     fill = '#AFAFAF',
     width = '22',

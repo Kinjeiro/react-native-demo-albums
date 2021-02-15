@@ -2,13 +2,13 @@ import { Text, Title, useTheme } from 'react-native-paper';
 import { View } from 'react-native';
 import React from 'react';
 
-import ModalBasketIcon from '../../../../../assets/svgs/modal-basket.svg';
-
-import { heightPercentToPx } from '../../../../feats/feat-utils/native-utils';
+import { heightPercentToPx } from '../../../../core-feats/feat-native-utils/native-utils';
 import AppButton from '../../../../components-overriden/AppButton/AppButton';
+//import ModalBasketIcon from '../../../../../assets/svgs/modal-basket.svg';
+import ModalBasketIcon from '../../../../icons/ModalBasketIcon';
 
 interface DeleteDialogProps {
-  onDelete: () => void,
+  onDelete: () => void | Promise<any>,
 }
 export default function DeleteDialog({ onDelete }: DeleteDialogProps) {
   const theme = useTheme();
@@ -32,6 +32,7 @@ export default function DeleteDialog({ onDelete }: DeleteDialogProps) {
         <ModalBasketIcon
           width={ 108 }
           height={ 128 }
+          fill={ theme.colors.errorBackground }
         />
         <Title
           style={{

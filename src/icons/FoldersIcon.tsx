@@ -1,7 +1,8 @@
 import React from 'react';
 import Svg, { G, Path } from 'react-native-svg';
+import SvgIconProps from './SvgIconProps';
 
-export default function FoldersIcon(props) {
+export default function FoldersIcon(props: SvgIconProps) {
   const {
     fill = '#AFAFAF',
   } = props;
