@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import {
   Image, ListRenderItemInfo, View,
 } from 'react-native';
@@ -28,7 +28,8 @@ function AlbumListItem({ rowData }: AlbumListItemProps) {
   // todo @ANKU @LOW - если не будет фотки - сделать стаб
   const { thumbnailUrl } = photos.data[0] || {};
 
-  const styles = getStyles(useTheme());
+  const theme = useTheme();
+  const styles = useMemo(() => getStyles(theme), [theme]);
 
   return (
     <View style={ styles.root }>

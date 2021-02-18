@@ -21,7 +21,7 @@ import {
   MutationAlbumCreateType,
   MutationAlbumCreateVariablesType,
 } from './graphql-album-create';
-import { getQueryAlbumsByUserKey } from '../List/graphql-albums';
+import { getQueryAlbumsKey } from '../List/graphql-albums';
 import FeedScreens from '../../feed-navigation';
 
 export const PORTAL_CREATE_ALBUM_BUTTON = 'createAlbum';
@@ -60,24 +60,24 @@ interface AlbumCreateScreenProps {
 export default function AlbumCreateScreen({ navigation }: AlbumCreateScreenProps) {
   const theme = useTheme();
 
-  const queryAlbumByUserKey = getQueryAlbumsByUserKey(USER.id);
+  const queryAlbumKey = getQueryAlbumsKey();
   const [apiCreateAlbum] = useMutation<MutationAlbumCreateType, MutationAlbumCreateVariablesType>(
     MUTATION_ALBUM_CREATE,
     {
       update: (proxy, { data }) => {
-        const prevQueryResult = proxy.readQuery(queryAlbumByUserKey);
+        const prevQueryResult = proxy.readQuery(queryAlbumKey);
         if (prevQueryResult) {
           proxy.writeQuery({
-            ...queryAlbumByUserKey,
+            ...queryAlbumKey,
             data: setInDeepReducer(
               prevQueryResult,
-              'user.albums',
+              'albums',
               {
                 meta: {
-                  totalCount: (prevQueryResult.user.albums?.meta?.totalCount || 0) + 1,
+                  totalCount: (prevQueryResult.albums.meta?.totalCount || 0) + 1,
                 },
                 data: [
-                  ...(prevQueryResult.user.albums?.data || []),
+                  ...(prevQueryResult.albums.data || []),
                   data?.createAlbum,
                 ],
               },

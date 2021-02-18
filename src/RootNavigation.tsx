@@ -25,7 +25,8 @@ export default function RootNavigation() {
     <NavigationContainer>
       <FooterTabs.Navigator
         initialRouteName={ RootScreens.FEED }
-        // unmountOnBlur={ true }
+        // todo @ANKU @LOW - опция перегружает компоненты при переходе, тем самым нормализует роутинг и обновляет данные
+        //unmountOnBlur={ true }
         // todo @ANKU @LOW - вынести цвета
         activeColor={ theme.colors.primary }
         inactiveColor={ theme.colors.disabled }

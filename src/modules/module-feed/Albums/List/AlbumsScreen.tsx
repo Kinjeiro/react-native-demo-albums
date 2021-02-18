@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import {
   ListRenderItemInfo,
   View,
@@ -32,10 +32,10 @@ import FeedScreens from '../../feed-navigation';
 import AlbumListItem from './AlbumListItem';
 import DeleteDialog from './DeleteDialog';
 import {
-  getQueryAlbumsByUserKey,
+  getQueryAlbumsKey,
   MUTATION_ALBUM_REMOVE,
   MutationAlbumRemoveType,
-  QueryAlbumsByUserType, QueryAlbumsByUserVariablesType,
+  QueryAlbumsType, QueryAlbumsByUserVariablesType,
 } from './graphql-albums';
 import { GQLAlbum } from '../../../../feats/feat-graphql/graphqlTypes';
 
@@ -56,8 +56,10 @@ interface AlbumsProps {
 }
 export default function AlbumsScreen({ navigation }: AlbumsProps) {
   const [deletingAlbumId, setDeletingAlbumId] = useState(null);
+  const theme = useTheme();
+  const styles = useMemo(() => getStyles(theme), [theme]);
 
-  const queryAlbumByUserKey = getQueryAlbumsByUserKey(USER.id);
+  const queryAlbumsKey = getQueryAlbumsKey();
 
   const {
     loading,
@@ -65,14 +67,14 @@ export default function AlbumsScreen({ navigation }: AlbumsProps) {
     totalCount,
     gqlResponse,
     onLoadMore,
-  } = useLoadMore<QueryAlbumsByUserType, QueryAlbumsByUserVariablesType, GQLAlbum>(
-    queryAlbumByUserKey.query,
-    queryAlbumByUserKey.variables,
-    (data) => data.user.albums,
-    (prev, next) => setInDeepReducer<QueryAlbumsByUserType>(
+  } = useLoadMore<QueryAlbumsType, QueryAlbumsByUserVariablesType, GQLAlbum>(
+    queryAlbumsKey.query,
+    queryAlbumsKey.variables,
+    (data) => data.albums,
+    (prev, next) => setInDeepReducer<QueryAlbumsType>(
       prev,
-      'user.albums.data',
-      prev.user.albums?.data?.concat(next.user.albums?.data || []),
+      'albums.data',
+      prev.albums.data?.concat(next.albums.data || []),
     ),
   );
 
@@ -85,18 +87,18 @@ export default function AlbumsScreen({ navigation }: AlbumsProps) {
         deleteAlbum: true,
       },
       update: (proxy, { data }) => {
-        const prevData = proxy.readQuery<QueryAlbumsByUserType>(queryAlbumByUserKey);
-        if (prevData?.user.albums?.meta?.totalCount) {
+        const prevData = proxy.readQuery<QueryAlbumsType>(queryAlbumsKey);
+        if (prevData?.albums.meta?.totalCount) {
           proxy.writeQuery({
-            ...queryAlbumByUserKey,
+            ...queryAlbumsKey,
             data: setInDeepReducer<any>(
               prevData,
-              'user.albums',
+              'albums',
               {
                 meta: {
-                  totalCount: prevData.user.albums.meta.totalCount - 1,
+                  totalCount: prevData.albums.meta.totalCount - 1,
                 },
-                data: prevData.user.albums.data?.filter((album) => album && album.id !== deletingAlbumId),
+                data: prevData.albums.data?.filter((album) => album && album.id !== deletingAlbumId),
               }
               ,
             ),
@@ -138,8 +140,6 @@ export default function AlbumsScreen({ navigation }: AlbumsProps) {
   // ======================================================
   // RENDERS
   // ======================================================
-  const styles = getStyles(useTheme());
-
   const renderHeader = useCallback(() => {
     return (
       <View style={ styles.spacingList }>
@@ -161,7 +161,10 @@ export default function AlbumsScreen({ navigation }: AlbumsProps) {
 
   const renderItem = useCallback((rowData: ListRenderItemInfo<any>) => {
     return (
-      <AlbumListItem rowData={ rowData } />
+      <AlbumListItem
+        key={ rowData.item.id }
+        rowData={ rowData }
+      />
     );
   }, []);
 
@@ -240,6 +243,7 @@ const getStyles : GetStyle = ({ spacing }) => ({
     flex: 1,
   },
   spacingList: {
+    flex: 1,
     justifyContent: 'center',
     paddingLeft: spacing.defaultMargin * 2,
     paddingRight: spacing.defaultMargin * 2,

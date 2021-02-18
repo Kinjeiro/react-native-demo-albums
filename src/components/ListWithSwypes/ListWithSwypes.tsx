@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React from 'react';
+import React, { useCallback, useMemo } from 'react';
 import {
   Text,
   TouchableOpacity,
@@ -21,6 +21,8 @@ import GetStyle from '../../core-feats/feat-native-utils/get-style-type';
 // todo @ANKU @LOW - сделать по нормальному с пробрасыванием типа (IPropsSwipeListView.renderHiddenItem)
 type Callback = (rowData: ListRenderItemInfo<any>, rowMap: RowMap<any>) => Promise<any> | any;
 export type ListWithSwypesCallback<Item> = ((rowData: ListRenderItemInfo<Item>) => Promise<any> | any);
+
+const SwipeListViewPure = React.memo(SwipeListView);
 
 //Partial<IUseSectionListProps<any>>,
 //Partial<IUseFlatListProps<any>>,
@@ -49,24 +51,24 @@ function ListWithSwypes(props: ListWithSwypesProps) {
 
   const theme = useTheme();
   const { colors } = theme;
-  const styles = getStyles(theme);
+  const styles = useMemo(() => getStyles(theme), [theme]);
 
-  const handleCloseRow:Callback = async (rowData, rowMap) => {
+  const handleCloseRow:Callback = useCallback(async (rowData, rowMap) => {
     const rowKey = rowData.item.key;
     if (rowMap[rowKey] && (!onCloseRow || await onCloseRow(rowData))) {
       rowMap[rowKey].closeRow();
     }
-  };
+  }, [renderItem]);
 
-  const handleDeleteRow:Callback = async (rowData, rowMap) => {
+  const handleDeleteRow:Callback = useCallback(async (rowData, rowMap) => {
     // todo @ANKU @LOW - если открыли одну то закрывать другие
     if (!onDeleteRow || await onDeleteRow(rowData)) {
       await handleCloseRow(rowData, rowMap);
     }
-  };
+  }, [onDeleteRow]);
 
   // todo @ANKU @LOW - вынести это и унифицировать
-  const innerRenderItem:Callback = (rowData, rowMap) => (
+  const innerRenderItem:Callback = useCallback((rowData, rowMap) => (
     <TouchableHighlight
       key={ rowData.item.id || rowData.index }
       onPress={ onClickRow && (() => onClickRow(rowData)) }
@@ -80,9 +82,9 @@ function ListWithSwypes(props: ListWithSwypesProps) {
           : undefined
       }
     </TouchableHighlight>
-  );
+  ), [onClickRow, renderItem]);
 
-  const renderHiddenItem:Callback = (rowData, rowMap) => (
+  const renderHiddenItem:Callback = useCallback((rowData, rowMap) => (
     <View
       // todo @ANKU @LOW - подумать над ключом
       key={ rowData.item.id }
@@ -122,13 +124,13 @@ function ListWithSwypes(props: ListWithSwypesProps) {
         )
       }
     </View>
-  );
+  ), [handleDeleteRow, handleCloseRow, onCloseRow, onDeleteRow]);
 
   // ======================================================
   // MAIN RENDER
   // ======================================================
   return (
-    <SwipeListView
+    <SwipeListViewPure
       data={ data }
       style={ styles.root }
 
@@ -162,7 +164,6 @@ function ListWithSwypes(props: ListWithSwypesProps) {
 }
 
 export default React.memo(ListWithSwypes);
-
 
 const getStyles : GetStyle = ({ colors }) => ({
   root: {

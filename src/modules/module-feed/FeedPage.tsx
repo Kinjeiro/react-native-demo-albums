@@ -5,6 +5,9 @@ import { RouteProp } from '@react-navigation/native';
 import { useTheme } from 'react-native-paper';
 import { WhitePortal } from 'react-native-portal';
 
+import Loading from '../../components/Loading/Loading';
+import { getSlackNavigatorScreenOptions } from '../../styles/common-styles';
+
 // ======================================================
 // MODULE
 // ======================================================
@@ -13,7 +16,6 @@ import AlbumViewScreen, { AlbumViewScreenProps } from './Albums/View/AlbumViewSc
 import AlbumCreateScreen, { PORTAL_CREATE_ALBUM_BUTTON } from './Albums/Create/AlbumCreateScreen';
 import Posts from './Posts/Posts';
 import FeedScreens, { FeedScreensParamList } from './feed-navigation';
-import { getSlackNavigatorScreenOptions } from '../../styles/common-styles';
 
 const FeedTabs = createMaterialTopTabNavigator();
 
@@ -28,6 +30,8 @@ function FeedTabsScreen(props: FeedTabsScreenProps) {
 
   return (
     <FeedTabs.Navigator
+      lazy={ true }
+      lazyPlaceholder={ () => <Loading /> }
       swipeEnabled={ false }
       style={{
         // todo @ANKU @LOW - бордер над табами

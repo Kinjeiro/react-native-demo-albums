@@ -1,52 +1,47 @@
 import { gql } from '@apollo/client';
 import { Cache } from '@apollo/client/cache/core/types/Cache';
 
-import { GQLUser } from '../../../../feats/feat-graphql/graphqlTypes';
+import { GQLAlbumsPage } from '../../../../feats/feat-graphql/graphqlTypes';
 import { DEFAULT_LIMIT } from '../../../../hooks/use-load-more';
 
 
-export const QUERY_ALBUMS_BY_USER = gql`
-    query selectAlbumsByUser($userId: ID!, $page: Int, $limit: Int) {
-        user(id: $userId) {
-            id
-            albums(options: { paginate: { page: $page, limit: $limit } }) {
-                meta {
-                    totalCount
+export const QUERY_ALBUMS = gql`
+    query selectAlbums($page: Int, $limit: Int) {
+        albums(options: { paginate: { page: $page, limit: $limit } }) {
+            meta {
+                totalCount
+            }
+            data {
+                id
+                title
+                user {
+                    name
                 }
-                data {
-                    id
-                    title
-                    user {
-                        name
-                    }
-                    photos(options: { paginate: { page: 1, limit: 1 } }) {
-                        data {
-                            id
-                            title
-                            url
-                            thumbnailUrl
-                        }
+                photos(options: { paginate: { page: 1, limit: 1 } }) {
+                    data {
+                        id
+                        title
+                        url
+                        thumbnailUrl
                     }
                 }
             }
         }
     }
 `;
-export type QueryAlbumsByUserType = {
-  user: GQLUser,
+export type QueryAlbumsType = {
+  albums: GQLAlbumsPage,
 };
 export type QueryAlbumsByUserVariablesType = {
-  userId: string,
   page: number,
   limit: number,
 };
-export function getQueryAlbumsByUserKey(userId: string)
-  : Cache.ReadQueryOptions<QueryAlbumsByUserType, QueryAlbumsByUserVariablesType> {
+export function getQueryAlbumsKey()
+: Cache.ReadQueryOptions<QueryAlbumsType, QueryAlbumsByUserVariablesType> {
   return {
     //propTypes,
-    query: QUERY_ALBUMS_BY_USER,
+    query: QUERY_ALBUMS,
     variables: {
-      userId,
       page: 1,
       limit: DEFAULT_LIMIT,
     },

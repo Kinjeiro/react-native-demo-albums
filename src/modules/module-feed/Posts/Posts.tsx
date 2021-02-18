@@ -1,10 +1,9 @@
-import React from 'react';
+import React, { useCallback, useMemo } from 'react';
 import {
   ActivityIndicator, FlatList, ListRenderItemInfo, View,
 } from 'react-native';
 import { useTheme } from 'react-native-paper';
 
-import USER from '../../../feats/feat-auth/user.data';
 import Loading from '../../../components/Loading/Loading';
 import useLoadMore from '../../../hooks/use-load-more';
 
@@ -12,13 +11,16 @@ import useLoadMore from '../../../hooks/use-load-more';
 // MODULE
 // ======================================================
 import PostListItem from './PostListItem';
-import { QueryPostsByUserType, QueryPostsByUserVariablesType, getQueryPostsByUserKey } from './graphql-posts';
+import { QueryPostsType, QueryPostsVariablesType, getQueryPostsKey } from './graphql-posts';
 import { GQLPost } from '../../../feats/feat-graphql/graphqlTypes';
+import { setInDeepReducer } from '../../../core-feats/feat-common-utils/common-utils';
+import GetStyle from '../../../core-feats/feat-native-utils/get-style-type';
 
 export default function Posts() {
-  const { colors } = useTheme();
+  const theme = useTheme();
+  const styles = useMemo(() => getStyles(theme), [theme]);
 
-  const queryKey = getQueryPostsByUserKey(USER.id);
+  const queryKey = useMemo(getQueryPostsKey, []);
 
   const {
     loading,
@@ -26,39 +28,36 @@ export default function Posts() {
     totalCount,
     gqlResponse,
     onLoadMore,
-  } = useLoadMore<QueryPostsByUserType, QueryPostsByUserVariablesType, GQLPost>(
+  } = useLoadMore<QueryPostsType, QueryPostsVariablesType, GQLPost>(
     queryKey.query,
     queryKey.variables,
-    (data) => data && data.user.posts,
-    (prev, next) => ({
-      ...prev,
-      // Concatenate the new feed results after the old ones
-      user: {
-        ...prev.user,
-        posts: {
-          ...prev.user.posts,
-          data: prev.user.posts?.data?.concat(next.user.posts?.data || []),
-        },
-      },
-    }),
+    (data) => data && data.posts,
+    (prev, next) => setInDeepReducer<QueryPostsType>(
+      prev,
+      'posts.data',
+      prev.posts.data?.concat(next.posts.data || []),
+    ),
   );
 
-  const renderFooter = () => {
+  const renderFooter = useCallback(() => {
     return loading
       ? (
-        <ActivityIndicator />
+        <Loading style={ styles.footer } />
       )
       : null;
-  };
+  }, [loading]);
 
-  const renderItem = (rowData: ListRenderItemInfo<any>) => {
+  const renderItem = useCallback((rowData: ListRenderItemInfo<any>) => {
     return (
-      <PostListItem rowData={ rowData } />
+      <PostListItem
+        key={ rowData.item.id }
+        rowData={ rowData }
+      />
     );
-  };
+  }, []);
 
   return (
-    <View>
+    <View style={ styles.root }>
       {
         !records ? (
           <Loading />
@@ -67,9 +66,7 @@ export default function Posts() {
             data={ records }
             renderItem={ renderItem }
 
-            style={{
-              backgroundColor: colors.background,
-            }}
+            style={ styles.list }
 
             ListFooterComponent={ renderFooter }
             onEndReached={ onLoadMore }
@@ -82,3 +79,17 @@ export default function Posts() {
     </View>
   );
 }
+
+const getStyles : GetStyle = ({ spacing, colors }) => ({
+  root: {
+    flex: 1,
+  },
+  list: {
+    backgroundColor: colors.background,
+  },
+  footer: {
+    marginTop: spacing.defaultMargin,
+    marginBottom: spacing.defaultMargin,
+  },
+});
+
