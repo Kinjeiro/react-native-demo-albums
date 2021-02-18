@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.2.1](https://github.com/mokkapps/changelog-generator-demo/compare/v0.2.0...v0.2.1) (2021-02-18)
+
+
+### Features
+
+* **auth:** [#31](https://github.com/Kinjeiro/react-native-demo-albums/issues/31) - load global user '1' and create provider for him \ delete stub user \ avatar has fixed value ([c3b0c56](https://github.com/mokkapps/changelog-generator-demo/commits/c3b0c56453f18e1a5c86c123eba565c759287d66))
+* **utils:** common-utils::generateNumberId ([d2c7c55](https://github.com/mokkapps/changelog-generator-demo/commits/d2c7c551ce65a044e1426c2ce3ecb8709908fa7d))
+
+
+### Bug Fixes
+
+* **module_feed:** [#29](https://github.com/Kinjeiro/react-native-demo-albums/issues/29) - load all data without users / tab lazy loading / some performance ([5c8a679](https://github.com/mokkapps/changelog-generator-demo/commits/5c8a67915367528cc14ba0a461e56b7f9d53aec1))
+* **module_feed:** [#32](https://github.com/Kinjeiro/react-native-demo-albums/issues/32) - add album creation fixes: set borders, add id for key, new record push to the list start ([f9cb5b3](https://github.com/mokkapps/changelog-generator-demo/commits/f9cb5b341152dc3322d30868850d080ca3c5596d))
+
 ## [0.2.0](https://github.com/mokkapps/changelog-generator-demo/compare/v0.1.2...v0.2.0) (2021-02-15)
 
 ### [0.1.2](https://github.com/mokkapps/changelog-generator-demo/compare/v0.1.1...v0.1.2) (2021-02-15)
