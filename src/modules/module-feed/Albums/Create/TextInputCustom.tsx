@@ -3,10 +3,11 @@ import { Text, TextInput, useTheme } from 'react-native-paper';
 import { View } from 'react-native';
 import React from 'react';
 
-export default function TextInputCustom(props: React.ComponentProps<typeof TextInput>) {
+function TextInputCustom(props: React.ComponentProps<typeof TextInput>) {
   const theme = useTheme();
   const {
     label,
+    error,
     style,
     ...restProps
   } = props;
@@ -16,7 +17,7 @@ export default function TextInputCustom(props: React.ComponentProps<typeof TextI
     <View
       style={{
         height: 80,
-        justifyContent: 'center',
+        justifyContent: 'flex-start',
         alignItems: 'flex-start',
         marginBottom: theme.spacing.formFieldMarginHorizontal,
       }}
@@ -38,12 +39,26 @@ export default function TextInputCustom(props: React.ComponentProps<typeof TextI
           { ...restProps }
           style={{
             flex: 1,
-            borderColor: theme.colors.disabled,
+            borderColor: error ? theme.colors.errorBackground : theme.colors.disabled,
             // @ts-ignore
-            ...style,
+            //...style,
           }}
         />
       </View>
+      {
+        error && (
+          <Text
+            style={{
+              marginTop: theme.spacing.defaultMargin,
+              color: theme.colors.errorBackground,
+            }}
+          >
+            { error }
+          </Text>
+        )
+      }
     </View>
   );
 }
+
+export default React.memo(TextInputCustom);

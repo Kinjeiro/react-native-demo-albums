@@ -8,7 +8,7 @@ import { useMutation } from '@apollo/client';
 import { StackNavigationProp } from '@react-navigation/stack';
 
 import { sleep } from '../../../../core-feats/feat-common-utils/promise-utils';
-import { setInDeepReducer } from '../../../../core-feats/feat-common-utils/common-utils';
+import { generateNumberId, setInDeepReducer } from '../../../../core-feats/feat-common-utils/common-utils';
 import USER from '../../../../feats/feat-auth/user.data';
 import AppButton from '../../../../components-overriden/AppButton/AppButton';
 
@@ -31,11 +31,11 @@ const FIELDS: FormConfigArrayType = [
     name: 'title',
     type: 'input',
     variant: 'outlined',
-    label: 'Name',
+    label: 'Title',
     rules: {
       required: {
         value: true,
-        message: 'Name is required',
+        message: 'Title is required',
       },
     },
     textInputProps: {
@@ -77,8 +77,8 @@ export default function AlbumCreateScreen({ navigation }: AlbumCreateScreenProps
                   totalCount: (prevQueryResult.albums.meta?.totalCount || 0) + 1,
                 },
                 data: [
-                  ...(prevQueryResult.albums.data || []),
                   data?.createAlbum,
+                  ...(prevQueryResult.albums.data || []),
                 ],
               },
             ),
@@ -103,10 +103,16 @@ export default function AlbumCreateScreen({ navigation }: AlbumCreateScreenProps
     };
     await apiCreateAlbum({
       variables: { albumInputData },
-      //optimisticResponse: {
-      //  __typename: 'Mutation',
-      //  createAlbum: albumInputData,
-      //},
+      optimisticResponse: {
+        //__typename: 'Mutation',
+        createAlbum: {
+          id: String(generateNumberId()),
+          title: albumInputData.title,
+          user: {
+            name: USER.name,
+          },
+        },
+      },
     });
     // todo @ANKU @CRIT @MAIN @debugger -
     await sleep(3000);

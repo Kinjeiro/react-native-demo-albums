@@ -8,7 +8,7 @@ import { isPromise } from '../../core-feats/feat-common-utils/promise-utils';
 type AppButtonProps = {
   onPress?: () => (void | Promise<any>);
 } & React.ComponentProps<typeof Button>;
-export default function AppButton(props: AppButtonProps) {
+function AppButton(props: AppButtonProps) {
   const {
     style,
     labelStyle,
@@ -17,6 +17,7 @@ export default function AppButton(props: AppButtonProps) {
     loading,
     ...restProps
   } = props;
+
   const theme = useTheme();
 
   const [isPromiseLoading, setPromiseLoading] = useState(false);
@@ -41,7 +42,6 @@ export default function AppButton(props: AppButtonProps) {
     }
   };
 
-  // todo @ANKU @LOW - кнопка лоадинга прыгает, немного не хватает места для small лоадинга
   return (
     <Button
       mode="contained"
@@ -68,3 +68,5 @@ export default function AppButton(props: AppButtonProps) {
     />
   );
 }
+
+export default React.memo(AppButton);
