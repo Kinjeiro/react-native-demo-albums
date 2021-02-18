@@ -61,6 +61,9 @@ export default function AppGraphQLProvider({ children }: React.PropsWithChildren
     }).then(() => setLoadingCache(false));
   }, []);
 
+  //const [loadingCache, setLoadingCache] = useState(false);
+
+
   if (loadingCache) {
     return <AppLoading />;
   }

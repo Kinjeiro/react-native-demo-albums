@@ -1,5 +1,5 @@
 import { View } from 'react-native';
-import React from 'react';
+import React, { useContext } from 'react';
 import { useTheme } from 'react-native-paper';
 import { BlackPortal } from 'react-native-portal';
 import FormBuilder, { FormConfigArrayType } from 'react-native-paper-form-builder';
@@ -9,8 +9,8 @@ import { StackNavigationProp } from '@react-navigation/stack';
 
 import { sleep } from '../../../../core-feats/feat-common-utils/promise-utils';
 import { generateNumberId, setInDeepReducer } from '../../../../core-feats/feat-common-utils/common-utils';
-import USER from '../../../../feats/feat-auth/user.data';
 import AppButton from '../../../../components-overriden/AppButton/AppButton';
+import UserContext from '../../../../feats/feat-auth/context-user';
 
 // ======================================================
 // MODULE
@@ -59,33 +59,11 @@ interface AlbumCreateScreenProps {
 }
 export default function AlbumCreateScreen({ navigation }: AlbumCreateScreenProps) {
   const theme = useTheme();
+  const { user, loading: isUserLoading } = useContext(UserContext);
 
   const queryAlbumKey = getQueryAlbumsKey();
   const [apiCreateAlbum] = useMutation<MutationAlbumCreateType, MutationAlbumCreateVariablesType>(
     MUTATION_ALBUM_CREATE,
-    {
-      update: (proxy, { data }) => {
-        const prevQueryResult = proxy.readQuery(queryAlbumKey);
-        if (prevQueryResult) {
-          proxy.writeQuery({
-            ...queryAlbumKey,
-            data: setInDeepReducer(
-              prevQueryResult,
-              'albums',
-              {
-                meta: {
-                  totalCount: (prevQueryResult.albums.meta?.totalCount || 0) + 1,
-                },
-                data: [
-                  data?.createAlbum,
-                  ...(prevQueryResult.albums.data || []),
-                ],
-              },
-            ),
-          });
-        }
-      },
-    },
   );
 
   const form = useForm({
@@ -99,19 +77,54 @@ export default function AlbumCreateScreen({ navigation }: AlbumCreateScreenProps
   const handleSubmit = form.handleSubmit(async (albumData) => {
     const albumInputData = {
       title: albumData.title,
-      userId: USER.id,
+      userId: user!.id!,
     };
+    const optimisticResponse = {
+      createAlbum: {
+        id: String(generateNumberId()),
+        title: albumInputData.title,
+        user: {
+          name: user!.name,
+        },
+        /*
+          @NOTE: нужно чтобы совпадал формат полностью, а там мы запрашиваем фотки еще
+        */
+        photos: {
+          data: [],
+        },
+      },
+    };
+
     await apiCreateAlbum({
       variables: { albumInputData },
-      optimisticResponse: {
-        //__typename: 'Mutation',
-        createAlbum: {
-          id: String(generateNumberId()),
-          title: albumInputData.title,
-          user: {
-            name: USER.name,
-          },
-        },
+      /*
+        @NOTE: ДОЛЖЕН БЫТЬ ТОЧНЫЙ ЗАПРОС - один в один совпадать с запрашиваемыми данными назад
+      */
+      optimisticResponse,
+      update: (proxy, { data }) => {
+        const prevQueryResult = proxy.readQuery(queryAlbumKey);
+
+        if (prevQueryResult) {
+          proxy.writeQuery({
+            ...queryAlbumKey,
+            data: setInDeepReducer(
+              prevQueryResult,
+              'albums',
+              {
+                meta: {
+                  totalCount: (prevQueryResult.albums.meta?.totalCount || 0) + 1,
+                },
+                data: [
+                  // todo @ANKU @LOW - @BUG_OUT - Apollo - update() method getting called twice, both times with optimistic/fake data
+                  // https://stackoverflow.com/questions/48942175/apollo-update-method-getting-called-twice-both-times-with-optimistic-fake-d
+                  //data?.createAlbum,
+                  optimisticResponse.createAlbum,
+                  ...(prevQueryResult.albums.data || []),
+                ],
+              },
+            ),
+          });
+        }
       },
     });
     // todo @ANKU @CRIT @MAIN @debugger -
@@ -121,6 +134,8 @@ export default function AlbumCreateScreen({ navigation }: AlbumCreateScreenProps
 
   /*
     // todo @ANKU @LOW - FormBuilder работает на react-hook-form@5.7.2 - нужно его обновлять на 6 (переписывать Controller на render метод)
+
+    // todo @ANKU @LOW - при отсылки формы, хорошо бы все поля дисейблить
   */
   return (
     <View
@@ -134,10 +149,11 @@ export default function AlbumCreateScreen({ navigation }: AlbumCreateScreenProps
       <BlackPortal name={ PORTAL_CREATE_ALBUM_BUTTON }>
         <AppButton
           mode="text"
-          disabled={ !form.formState.isValid }
+          disabled={ !form.formState.isValid || isUserLoading }
           uppercase={ false }
           labelStyle={{ fontSize: theme.fontSizes.title }}
           onPress={ handleSubmit }
+          loading={ isUserLoading }
         >
           Send
         </AppButton>

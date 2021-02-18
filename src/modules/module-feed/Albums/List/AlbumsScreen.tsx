@@ -17,7 +17,6 @@ import { setInDeepReducer } from '../../../../core-feats/feat-common-utils/commo
 import { IS_WEB } from '../../../../core-feats/feat-native-utils/native-utils';
 import { sleep } from '../../../../core-feats/feat-common-utils/promise-utils';
 import GetStyle from '../../../../core-feats/feat-native-utils/get-style-type';
-import USER from '../../../../feats/feat-auth/user.data';
 import useLoadMore from '../../../../hooks/use-load-more';
 import Loading from '../../../../components/Loading/Loading';
 import ListWithSwypes, { ListWithSwypesCallback } from '../../../../components/ListWithSwypes/ListWithSwypes';
