@@ -8,6 +8,16 @@ import lodashCloneDeep from 'lodash/cloneDeep';
 
 export const memoize = lodashMemoize;
 
+export function generateNumberId(length = 7) {
+  // current timestamp 1543988290855 - 13
+  const numId = Math.floor(new Date().valueOf() * Math.random());
+  let numIdStr = `${numId}`;
+  while (numIdStr.length < length) {
+    numIdStr += '0';
+  }
+  return parseInt(numIdStr.substr(0, length), 10);
+}
+
 export function isClass(v: Object) {
   if (!v) {
     return false;
